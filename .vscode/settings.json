@@ -1,0 +1,6 @@
+{
+	"editor.insertSpaces": false,
+	"python.analysis.extraPaths": [
+		"./entities"
+	]
+}
