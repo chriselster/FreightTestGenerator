@@ -1,6 +1,6 @@
 from unittest import TestCase
 
-from clusterization import PointsGenerator
+from entities.clusterization import PointsGenerator
 
 
 class TestItem(TestCase):

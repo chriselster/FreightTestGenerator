@@ -1,10 +1,11 @@
-class Customer:
-    def __init__(self, id, position):
-        self.id = id
-        self.posposition = position
+class Client:
+    def __init__(self, index, position, items):
+        self.index = index
+        self.position = position
+        self.items = items
 
 
 class Position:
-	def __init__(self, x, y):
-		self.x = x
-		self.y = y
+    def __init__(self, x, y):
+        self.x = x
+        self.y = y
