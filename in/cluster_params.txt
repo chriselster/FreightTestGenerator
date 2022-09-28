@@ -1,0 +1,5 @@
+seed: 3
+amount: 2000
+centers: 6
+method: 2
+cluster_std: 5.0

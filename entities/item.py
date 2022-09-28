@@ -14,9 +14,7 @@ class Item:
 class ItemFactory:
     def __init__(self):
         self.index = 0
-        self.min_weigth = 1
-        self.max_weigth = 100
-        self.types = 10
+        self.read_params()
 
     def create(self):
         item = Item(self.index, self.generate_weigth(), self.generate_type())
@@ -28,3 +26,13 @@ class ItemFactory:
 
     def generate_type(self):
         return randint(1, self.types)
+
+    def read_params(self):
+        with open("in/item_params.txt", "r") as f:
+            params = f.read().splitlines()
+            self.min_weigth = float(self.parse_value(params[0]))
+            self.max_weigth = float(self.parse_value(params[1]))
+            self.types = int(self.parse_value(params[2]))
+
+    def parse_value(self, line):
+        return line.split(":")[1].strip()

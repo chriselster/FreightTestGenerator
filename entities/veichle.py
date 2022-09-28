@@ -20,17 +20,7 @@ class Veichle:
 class VeichleFactory:
     def __init__(self):
         self.index = 0
-        self.types = 10
-        self.min_capacity = 50
-        self.max_capacity = 500
-        self.min_minimumCapacity = 1
-        self.max_minimumCapacity = 50
-        self.min_costPerAdditionalCustomer = 1
-        self.max_costPerAdditionalCustomer = 10
-        self.min_pricePerWeightperKm = 1
-        self.max_pricePerWeightperKm = 10
-        self.min_maxDistanceBetweenCustomers = 5
-        self.max_maxDistanceBetweenCustomers = 100
+        self.read_params()
 
     def create(self):
         veichle = Veichle(self.index, self.generate_type(), self.generate_capacity(), self.generate_minimumCapacity(),
@@ -62,3 +52,25 @@ class VeichleFactory:
 
     def generate_maxDistanceBetweenCustomers(self):
         return round(uniform(self.min_maxDistanceBetweenCustomers, self.max_maxDistanceBetweenCustomers), 2)
+
+    def read_params(self):
+        with open("in/veichle_params.txt", "r") as f:
+            params = f.read().splitlines()
+            self.types = int(self.parse_value(params[0]))
+            self.min_capacity = float(self.parse_value(params[1]))
+            self.max_capacity = float(self.parse_value(params[2]))
+            self.min_minimumCapacity = float(self.parse_value(params[3]))
+            self.max_minimumCapacity = float(self.parse_value(params[4]))
+            self.min_costPerAdditionalCustomer = float(
+                self.parse_value(params[5]))
+            self.max_costPerAdditionalCustomer = float(
+                self.parse_value(params[6]))
+            self.min_pricePerWeightperKm = float(self.parse_value(params[7]))
+            self.max_pricePerWeightperKm = float(self.parse_value(params[8]))
+            self.min_maxDistanceBetweenCustomers = float(
+                self.parse_value(params[9]))
+            self.max_maxDistanceBetweenCustomers = float(
+                self.parse_value(params[10]))
+
+    def parse_value(self, line):
+        return line.split(":")[1].strip()
