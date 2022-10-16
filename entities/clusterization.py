@@ -6,7 +6,7 @@ from random import uniform
 
 from sklearn.datasets import make_blobs
 
-from entities.client import Position
+from client import Position
 
 
 class GenerationMethod(Enum):
@@ -55,7 +55,7 @@ class PointsGenerator:
 
     def create_cities(self):
         portion = ceil(self.amount / self.centers*2)
-        points, _ = make_blobs(n_samples=[portion*2] + [portion for _ in range(self.centers-1)], centers=self.generate_centers(),
+        points, _ = make_blobs(n_samples=[portion*(self.centers+1)] + [portion for _ in range(self.centers-1)], centers=self.generate_centers(),
                                cluster_std=self.cluster_std, random_state=0)
 
         for point in points:
@@ -79,8 +79,8 @@ class PointsGenerator:
         centers = []
         point = [uniform(0, 100), uniform(0, 100)]
         for _ in range(self.centers):
-            point[0] = (point[0]+uniform(22, 50)) % 100
-            point[1] = (point[1]+uniform(22, 50)) % 100
+            point[0] = (point[0]+uniform(70, 90)) % 100
+            point[1] = (point[1]+uniform(70, 90)) % 100
             centers.append(copy(point))
         return centers
 

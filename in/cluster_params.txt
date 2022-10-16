@@ -1,5 +1,5 @@
 seed: 3
-amount: 2000
-centers: 6
+item amount: 1500
+centers: 4
 method: 2
-cluster_std: 5.0
+cluster_std: 10.0

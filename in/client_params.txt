@@ -1,0 +1,3 @@
+quantity: 2000
+min_item_qtt: 1
+max_item_qtt: 5

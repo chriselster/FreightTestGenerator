@@ -4,7 +4,7 @@ from random import randint, uniform
 class Item:
     def __init__(self, index, weigth, type):
         self.index = index
-        self.weigth = weigth
+        self.weigth = weigth  # INTEGER
         self.type = type
 
     def __str__(self):

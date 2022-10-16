@@ -2,19 +2,15 @@ from random import randint, uniform
 
 
 class Veichle:
-    def __init__(self, index, type, capacity, minimumCapacity, costPerAdditionalCustomer,
-                 pricePerWeightperKm, allowedItemTypes, maxDistanceBetweenCustomers):
+    def __init__(self, index, type, capacity,
+                 allowedItemTypes):
         self.index = index
         self.type = type
         self.capacity = capacity
-        self.minimumCapacity = minimumCapacity
-        self.costPerAdditionalCustomer = costPerAdditionalCustomer
-        self.pricePerWeightperKm = pricePerWeightperKm
         self.allowedItemTypes = allowedItemTypes
-        self.maxDistanceBetweenCustomers = maxDistanceBetweenCustomers
 
     def __str__(self):
-        return f"{str(self.index)},{str(self.type)},{str(self.capacity)},{str(self.minimumCapacity)}"
+        return f"{str(self.index)},{str(self.type)},{str(self.capacity)},"
 
 
 class VeichleFactory:
@@ -23,9 +19,8 @@ class VeichleFactory:
         self.read_params()
 
     def create(self):
-        veichle = Veichle(self.index, self.generate_type(), self.generate_capacity(), self.generate_minimumCapacity(),
-                          self.generate_costPerAdditionalCustomer(), self.generate_pricePerWeightperKm(),
-                          self.generate_allowedItemTypes(), self.generate_maxDistanceBetweenCustomers())
+        veichle = Veichle(self.index, self.generate_type(), self.generate_capacity(),
+                          self.generate_allowedItemTypes())
         self.index += 1
         return veichle
 

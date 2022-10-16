@@ -1,11 +1,2 @@
-types: 10
-min_capacity: 50
-max_capacity: 500
-min_minimumCapacity: 1
-max_minimumCapacity: 50
-min_costPerAdditionalCustomer: 1
-max_costPerAdditionalCustomer: 10
-min_pricePerWeightperKm: 1
-max_pricePerWeightperKm: 10
-min_maxDistanceBetweenCustomers: 5
-max_maxDistanceBetweenCustomers: 100
+types: 2
+possible_capacities: 25, 30, 35, 40, 45, 50
