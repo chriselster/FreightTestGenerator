@@ -1,4 +1,8 @@
 class Client:
+    @staticmethod
+    def header():
+        return ['index', 'X_coordinate', 'Y_coordinate']
+
     def __init__(self, index, position, items):
         self.index = index
         self.position = position
@@ -10,6 +14,15 @@ class Client:
             out += f'{item}\n'
         return out
 
+    def asList(self):
+        return [self.index] + self.position.asList()
+
+    def itemsIds(self):
+        return "/".join([str(item.index) for item in self.items])
+
+    def itemsAsList(self):
+        return [item.index for item in self.items]
+
 
 class Position:
     def __init__(self, x, y):
@@ -18,3 +31,6 @@ class Position:
 
     def __str__(self):
         return f'{self.x}, {self.y}'
+
+    def asList(self):
+        return [self.x, self.y]

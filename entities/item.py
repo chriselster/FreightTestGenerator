@@ -2,13 +2,21 @@ from random import randint, uniform
 
 
 class Item:
-    def __init__(self, index, weigth, type):
+    @staticmethod
+    def header():
+        return ['index', 'weigth', 'type', 'clientId']
+
+    def __init__(self, index,  weigth, type, clientId):
         self.index = index
         self.weigth = weigth  # INTEGER
         self.type = type
+        self.clientId = clientId
 
     def __str__(self):
         return f"{str(self.index)},{str(self.weigth)},{str(self.type)}"
+
+    def asList(self):
+        return [self.index, self.weigth, self.type, self.clientId]
 
 
 class ItemFactory:
@@ -16,8 +24,9 @@ class ItemFactory:
         self.index = 0
         self.read_params()
 
-    def create(self):
-        item = Item(self.index, self.generate_weigth(), self.generate_type())
+    def create(self, clientId):
+        item = Item(self.index,
+                    self.generate_weigth(), self.generate_type(), clientId)
         self.index += 1
         return item
 

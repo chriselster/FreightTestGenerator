@@ -6,7 +6,7 @@ from random import uniform
 
 from sklearn.datasets import make_blobs
 
-from client import Position
+from entities.client import Position
 
 
 class GenerationMethod(Enum):
@@ -56,7 +56,7 @@ class PointsGenerator:
     def create_cities(self):
         portion = ceil(self.amount / self.centers*2)
         points, _ = make_blobs(n_samples=[portion*(self.centers+1)] + [portion for _ in range(self.centers-1)], centers=self.generate_centers(),
-                               cluster_std=self.cluster_std, random_state=0)
+                               cluster_std=self.cluster_std, random_state=self.seed)
 
         for point in points:
             point[0] = round(point[0], 3)
@@ -68,7 +68,7 @@ class PointsGenerator:
         centers = self.generate_centers()
         print(centers)
         points, _ = make_blobs(n_samples=[portion for _ in range(self.centers)], n_features=2, centers=centers,
-                               cluster_std=self.cluster_std, random_state=0)
+                               cluster_std=self.cluster_std, random_state=self.seed)
 
         for point in points:
             point[0] = round(point[0], 3)
@@ -87,6 +87,7 @@ class PointsGenerator:
     def read_params(self):
         with open('in/cluster_params.txt', 'r') as f:
             lines = f.readlines()
+            self.seed = int(self.parse_value(lines[0]))
             self.amount = int(self.parse_value(lines[1]))
             self.centers = int(self.parse_value(lines[2]))
             self.method = GenerationMethod(int(self.parse_value(lines[3])))
