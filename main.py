@@ -1,11 +1,12 @@
 import csv
 from random import randint, seed
 
+from utils import Quadrants
+
 from entities.carrier import Carrier, CarrierFactory
 from entities.client import Client
 from entities.clusterization import PointsGenerator
 from entities.item import Item, ItemFactory
-from entities.quadrants import Quadrants
 from entities.veichle import Veichle, VeichleFactory
 
 clients = []
