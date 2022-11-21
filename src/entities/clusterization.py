@@ -4,9 +4,8 @@ from enum import Enum
 from math import ceil
 from random import uniform
 
+from client import Position
 from sklearn.datasets import make_blobs
-
-from entities.client import Position
 
 
 class GenerationMethod(Enum):

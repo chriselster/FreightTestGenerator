@@ -2,18 +2,15 @@
 
 import random
 
-from entities.fares import Fares
-
 
 class Carrier:
     @staticmethod
     def header():
-        return ['baseFarePerType', 'quadrants', 'minimumCapacity', 'costPerAdditionalCustomer', 'discoutPerCapacityIncrease', 'maxDistanceBetweenCustomers']
+        return [id, 'quadrants', 'minimumCapacity', 'costPerAdditionalCustomer', 'discoutPerCapacityIncrease', 'maxDistanceBetweenCustomers']
 
-    def __init__(self,  veichles, baseFarePerType, quadrants, minimumCapacity, costPerAdditionalCustomer, discoutPerCapacityIncrease, maxDistanceBetweenCustomers):
-        self.veichles = veichles
+    def __init__(self, index,    quadrants, minimumCapacity, costPerAdditionalCustomer, discoutPerCapacityIncrease, maxDistanceBetweenCustomers):
+        self.id = index
         # Cost per weight per km for each veichle type
-        self.baseFarePerType = baseFarePerType
         self.quadrants = quadrants
         # Percentage of the veichle capacity that must be filled
         self.minimumCapacity = minimumCapacity
@@ -23,20 +20,8 @@ class Carrier:
         # 5% / 2,5%
         self.maxDistanceBetweenCustomers = maxDistanceBetweenCustomers
 
-    def __str__(self):
-        veichles = ''.join(f"{str(veichle)}\n" for veichle in self.veichles)
-        info = f"{str(self.baseFarePerType)},{str(self.quadrants)},{str(self.minimumCapacity)},{str(self.costPerAdditionalCustomer)},{str(self.discoutPerCapacityIncrease)},{str(self.maxDistanceBetweenCustomers)},{len(self.veichles)}\n"
-
-        return info + veichles
-
     def asList(self):
-        return [self.baseFarePerType, self.quadrants, self.minimumCapacity, self.costPerAdditionalCustomer, self.discoutPerCapacityIncrease, self.maxDistanceBetweenCustomers]
-
-    def veichlesIds(self):
-        return "/".join([str(veichle.index) for veichle in self.veichles])
-
-    def veichlesAsList(self):
-        return [veichle.index for veichle in self.veichles]
+        return [self.quadrants, self.minimumCapacity, self.costPerAdditionalCustomer, self.discoutPerCapacityIncrease, self.maxDistanceBetweenCustomers]
 
 
 class CarrierFactory:
@@ -49,10 +34,9 @@ class CarrierFactory:
         self.maxDistanceBetweenCustomers = 0
         self.read_params()
 
-    def generate(self, veichles):
+    def generate(self):
         self.index += 1
-        return Carrier(veichles,
-                       self.baseFarePerType,
+        return Carrier(self.index,
                        random.randint(1, len(self.quadrants)),
                        self.minimumCapacity,
                        self.costPerAdditionalCustomer,
@@ -63,8 +47,6 @@ class CarrierFactory:
     def read_params(self):
         with open("in/carriers_params.txt", "r") as f:
             params = f.read().splitlines()
-            self.baseFarePerType = Fares(
-                self.parse_value(params[1]).split(","))
             self.readQuadrants(params)
             self.readMinimumCapacity(params)
 

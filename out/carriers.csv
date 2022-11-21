@@ -1,4 +1,4 @@
-baseFarePerType,quadrants,minimumCapacity,costPerAdditionalCustomer,discoutPerCapacityIncrease,maxDistanceBetweenCustomers
+<built-in function id>,fareId,quadrants,minimumCapacity,costPerAdditionalCustomer,discoutPerCapacityIncrease,maxDistanceBetweenCustomers
 0,1,0.85,20,0.2,0
 0,3,0.85,20,0.2,0
 0,1,0.85,20,0.2,0

@@ -1,12 +1,11 @@
 import csv
 from random import randint, seed
 
-from utils import Quadrants
-
 from entities.carrier import Carrier, CarrierFactory
 from entities.client import Client
 from entities.clusterization import PointsGenerator
 from entities.item import Item, ItemFactory
+from entities.utils import Quadrants
 from entities.veichle import Veichle, VeichleFactory
 
 clients = []
@@ -22,7 +21,7 @@ veichleFactory = VeichleFactory()
 carrierFactory = CarrierFactory()
 allItems = []
 allVeichles = []
-fares = set()
+fares = []
 quadrants = []
 
 for index, point in enumerate(pointsGenerator.generate()):
@@ -38,13 +37,8 @@ for index in range(5):
     veichles = []
     veichles.extend(veichleFactory.create(index) for _ in range(10))
     allVeichles.extend(veichles)
-    carriers.append(carrierFactory.generate(veichles))
-    fares.add(carriers[-1].baseFarePerType)
+    carriers.append(carrierFactory.generate())
 
-faresList = list(fares)
-# replace fares with index
-for carrier in carriers:
-    carrier.baseFarePerType = faresList.index(carrier.baseFarePerType)
 
 with open('out/clients.csv', 'w', encoding='UTF8', newline='') as f:
     writer = csv.writer(f)
@@ -72,7 +66,7 @@ with open('out/veichles.csv', 'w', encoding='UTF8', newline='') as f:
 
 with open('out/fares.csv', 'w', encoding='UTF8', newline='') as f:
     writer = csv.writer(f)
-    writer.writerow(faresList[0].header())
+    writer.writerow(Fare.header())
     for fare in fares:
         writer.writerow(fare.asList())
 
