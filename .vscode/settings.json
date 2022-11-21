@@ -12,4 +12,12 @@
 	"python.linting.enabled": true,
 	"python.linting.pylintEnabled": true,
 	"python.analysis.typeCheckingMode": "basic",
+	"python.analysis.extraPaths": [
+		"./src",
+		"./src/entities"
+	],
+	"python.linting.pylintArgs": [
+		"--init-hook",
+		"import sys; sys.path.append('./src/entities')"
+	]
 }

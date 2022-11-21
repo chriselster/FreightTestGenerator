@@ -1,5 +1,3 @@
-
-
 class Quadrants:
     def __init__(self, type):
         self.topLeft = False

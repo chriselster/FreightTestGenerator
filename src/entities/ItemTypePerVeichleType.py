@@ -1,5 +1,3 @@
-
-
 from entities.ParamReader import ParamReader
 
 
