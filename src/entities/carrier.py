@@ -2,11 +2,13 @@
 
 import random
 
+from entities.ParamReader import ParamReader
+
 
 class Carrier:
     @staticmethod
     def header():
-        return [id, 'quadrants', 'minimumCapacity', 'costPerAdditionalCustomer', 'discoutPerCapacityIncrease', 'maxDistanceBetweenCustomers']
+        return ['id', 'quadrantId', 'minimumCapacity', 'costPerAdditionalCustomer', 'discoutPerCapacityIncrease', 'maxDistanceBetweenCustomers']
 
     def __init__(self, index,    quadrants, minimumCapacity, costPerAdditionalCustomer, discoutPerCapacityIncrease, maxDistanceBetweenCustomers):
         self.id = index
@@ -21,50 +23,37 @@ class Carrier:
         self.maxDistanceBetweenCustomers = maxDistanceBetweenCustomers
 
     def asList(self):
-        return [self.quadrants, self.minimumCapacity, self.costPerAdditionalCustomer, self.discoutPerCapacityIncrease, self.maxDistanceBetweenCustomers]
+        return [self.id, self.quadrants, self.minimumCapacity, self.costPerAdditionalCustomer, self.discoutPerCapacityIncrease, self.maxDistanceBetweenCustomers]
 
 
 class CarrierFactory:
+
     def __init__(self):
         self.index = 0
         self.quadrants = []
-        self.minimumCapacity = 0
-        self.costPerAdditionalCustomer = 20
+        self.minimumCapacity = []
+        self.costPerAdditionalCustomer = 0
         self.discoutPerCapacityIncrease = 0.2
-        self.maxDistanceBetweenCustomers = 0
+        self.maxDistanceBetweenCustomers = []
         self.read_params()
 
     def generate(self):
         self.index += 1
         return Carrier(self.index,
                        random.randint(1, len(self.quadrants)),
-                       self.minimumCapacity,
+                       random.choice(self.minimumCapacity),
                        self.costPerAdditionalCustomer,
                        self.discoutPerCapacityIncrease,
-                       self.maxDistanceBetweenCustomers,
+                       random.choice(self.maxDistanceBetweenCustomers),
                        )
 
     def read_params(self):
         with open("in/carriers_params.txt", "r") as f:
             params = f.read().splitlines()
-            self.readQuadrants(params)
-            self.readMinimumCapacity(params)
-
-    def readQuadrants(self, params):
-        quadrants = self.parse_value(params[2])
-        quadrants = quadrants.split(",")
-        self.quadrants = quadrants
-
-    def readMinimumCapacity(self, params):
-        minimumCapacity = self.parse_value(params[3])
-        self.minimumCapacity = self.getRandomFromList(minimumCapacity)
-
-    def readMaxDistanceBetweenCustomers(self, params):
-        distanceList = self.parse_value(params[4])
-        self.maxDistanceBetweenCustomers = self.getRandomFromList(distanceList)
-
-    def getRandomFromList(self, value):
-        return random.choice(value.split(","))
-
-    def parse_value(self, line):
-        return line.split(":")[1].strip()
+            reader = ParamReader(params)
+            reader.next()
+            self.quadrants = reader.next()
+            self.minimumCapacity = reader.next()
+            self.costPerAdditionalCustomer = reader.next()[0]
+            self.maxDistanceBetweenCustomers = reader.next()
+            self.discoutPerCapacityIncrease = reader.next()[0]

@@ -1,44 +1,18 @@
 import csv
-from random import randint, seed
 
-from entities.carrier import Carrier, CarrierFactory
+from entities.carrier import Carrier
 from entities.client import Client
-from entities.clusterization import PointsGenerator
-from entities.item import Item, ItemFactory
-from entities.utils import Quadrants
-from entities.veichle import Veichle, VeichleFactory
+from entities.fare import Fare
+from entities.item import Item
+from entities.ItemTypePerVeichleType import ItemTypePerVeichleType
+from entities.TestGenerator import TestGenerator
+from entities.veichle import Veichle
 
-clients = []
-carriers = []
-
-with open('in/cluster_params.txt', 'r') as f:
-    lines = f.readlines()
-    seed(int(lines[0].split(":")[1].strip()))
-
-pointsGenerator = PointsGenerator()
-itemFactory = ItemFactory()
-veichleFactory = VeichleFactory()
-carrierFactory = CarrierFactory()
-allItems = []
-allVeichles = []
-fares = []
-quadrants = []
-
-for index, point in enumerate(pointsGenerator.generate()):
-    items = []
-    items.extend(itemFactory.create(index) for _ in range(randint(1, 5)))
-    allItems.extend(items)
-    clients.append(Client(index, point, items))
-
-for i in range(5):
-    quadrants.append(Quadrants(i+1))
-
-for index in range(5):
-    veichles = []
-    veichles.extend(veichleFactory.create(index) for _ in range(10))
-    allVeichles.extend(veichles)
-    carriers.append(carrierFactory.generate())
-
+generator = TestGenerator()
+clients, items = generator.buildClients()
+carriers, veichles = generator.buildCarriers()
+fares = generator.buildFares()
+quadrants = generator.buildQuadrants()
 
 with open('out/clients.csv', 'w', encoding='UTF8', newline='') as f:
     writer = csv.writer(f)
@@ -55,13 +29,13 @@ with open('out/carriers.csv', 'w', encoding='UTF8', newline='') as f:
 with open('out/items.csv', 'w', encoding='UTF8', newline='') as f:
     writer = csv.writer(f)
     writer.writerow(Item.header())
-    for item in allItems:
+    for item in items:
         writer.writerow(item.asList())
 
 with open('out/veichles.csv', 'w', encoding='UTF8', newline='') as f:
     writer = csv.writer(f)
     writer.writerow(Veichle.header())
-    for veichle in allVeichles:
+    for veichle in veichles:
         writer.writerow(veichle.asList())
 
 with open('out/fares.csv', 'w', encoding='UTF8', newline='') as f:
@@ -75,6 +49,13 @@ with open('out/quadrants.csv', 'w', encoding='UTF8', newline='') as f:
     writer.writerow(quadrants[0].header())
     for quadrant in quadrants:
         writer.writerow(quadrant.asList())
+
+with open('out/items_per_veichle.csv', 'w', encoding='UTF8') as f:
+    itemsPerVeichle = ItemTypePerVeichleType()
+    writer = csv.writer(f)
+    writer.writerow(itemsPerVeichle.header())
+    for item in itemsPerVeichle.asList():
+        writer.writerow(item)
 
 
 # # Plot item positions

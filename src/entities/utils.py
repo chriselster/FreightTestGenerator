@@ -36,29 +36,3 @@ class Quadrants:
 
     def asList(self):
         return [self.topLeft, self.topRight, self.bottomLeft, self.bottomRight]
-
-
-class ItemPerVeichle:
-    def __init__(self, item, veichle):
-        self.item = item
-        self.veichle = veichle
-
-    @staticmethod
-    def header():
-        return ["item", "veichle"]
-
-    def asList(self):
-        return [self.item, self.veichle]
-
-
-class FarePerVeichle:
-    def __init__(self, fare, veichle):
-        self.fare = fare
-        self.veichle = veichle
-
-    @staticmethod
-    def header():
-        return ["fare", "veichleId"]
-
-    def asList(self):
-        return [self.fare, self.veichle]

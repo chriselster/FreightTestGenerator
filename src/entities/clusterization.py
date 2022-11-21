@@ -4,8 +4,9 @@ from enum import Enum
 from math import ceil
 from random import uniform
 
-from client import Position
 from sklearn.datasets import make_blobs
+
+from entities.client import Position
 
 
 class GenerationMethod(Enum):
@@ -21,9 +22,9 @@ class PointsGenerator:
     def generate(self):
         if (self.method == GenerationMethod.UNIFORM):
             return self.generate_uniform_clusters()
-        elif (self.method == GenerationMethod.RANDOM):
+        if (self.method == GenerationMethod.RANDOM):
             return self.generate_random_points()
-        elif (self.method == GenerationMethod.REAL):
+        if (self.method == GenerationMethod.REAL):
             return self.generate_real_cities()
 
     def generate_real_cities(self):
@@ -43,8 +44,8 @@ class PointsGenerator:
         points = []
         for _ in range(self.amount):
             point = [50, 50]
-            point[0] += uniform(-50, 50)
-            point[1] += uniform(-50, 50)
+            point[0] += uniform(-50, 50)    # type: ignore
+            point[1] += uniform(-50, 50)    # type: ignore
             points.append(point)
 
         for point in points:
@@ -54,7 +55,7 @@ class PointsGenerator:
 
     def create_cities(self):
         portion = ceil(self.amount / self.centers*2)
-        points, _ = make_blobs(n_samples=[portion*(self.centers+1)] + [portion for _ in range(self.centers-1)], centers=self.generate_centers(),
+        points, _ = make_blobs(n_samples=[portion*(self.centers+1)] + [portion for _ in range(self.centers-1)], centers=self.generate_centers(),  # type: ignore
                                cluster_std=self.cluster_std, random_state=self.seed)
 
         for point in points:
@@ -66,7 +67,7 @@ class PointsGenerator:
         portion = ceil(self.amount / self.centers)
         centers = self.generate_centers()
         print(centers)
-        points, _ = make_blobs(n_samples=[portion for _ in range(self.centers)], n_features=2, centers=centers,
+        points, _ = make_blobs(n_samples=[portion for _ in range(self.centers)], n_features=2, centers=centers,  # type: ignore
                                cluster_std=self.cluster_std, random_state=self.seed)
 
         for point in points:

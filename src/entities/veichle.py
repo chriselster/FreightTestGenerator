@@ -1,5 +1,6 @@
 import random
-from random import randint
+
+from entities.ParamReader import ParamReader
 
 
 class Veichle:
@@ -32,16 +33,16 @@ class VeichleFactory:
         return veichle
 
     def generate_type(self):
-        return randint(1, self.types)
+        return random.choice(self.types)
 
     def generate_capacity(self):
         return random.choice(self.possible_capacities)
 
     def read_params(self):
         with open("in/veichle_params.txt", "r") as f:
-            params = f.read().splitlines()
-            self.types = int(self.parse_value(params[0]))
-            self.possible_capacities = self.parse_value(params[1]).split(",")
+            reader = ParamReader(f.read().splitlines())
+            self.types = reader.next()
+            self.possible_capacities = reader.next()
 
     def parse_value(self, line):
         return line.split(":")[1].strip()
