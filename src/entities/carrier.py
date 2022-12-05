@@ -8,7 +8,7 @@ from entities.ParamReader import ParamReader
 class Carrier:
     @staticmethod
     def header():
-        return ['id', 'quadrantId', 'minimumCapacity', 'costPerAdditionalCustomer', 'discoutPerCapacityIncrease', 'maxDistanceBetweenCustomers']
+        return ['id', 'minimumCapacity', 'costPerAdditionalCustomer', 'discoutPerCapacityIncrease', 'maxDistanceBetweenCustomers']
 
     def __init__(self, index,    quadrantId, minimumCapacity, costPerAdditionalCustomer, discoutPerCapacityIncrease, maxDistanceBetweenCustomers):
         self.id = index
@@ -24,7 +24,7 @@ class Carrier:
         self.clients = []
 
     def asList(self):
-        return [self.id, self.quadrantId, self.minimumCapacity, self.costPerAdditionalCustomer, self.discoutPerCapacityIncrease, self.maxDistanceBetweenCustomers]
+        return [self.id, self.minimumCapacity, self.costPerAdditionalCustomer, self.discoutPerCapacityIncrease, self.maxDistanceBetweenCustomers]
 
     def generateClientList(self, clients):
         if (self.quadrantId == 0):
@@ -43,6 +43,8 @@ class Carrier:
             # x > 50 and y > 50
             self.clients = [
                 client for client in clients if client.position.x > 50 and client.position.y > 50]
+        else:
+            self.clients = clients
 
 
 class CarrierFactory:

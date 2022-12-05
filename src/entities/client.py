@@ -17,12 +17,6 @@ class Client:
     def asList(self):
         return [self.index] + self.position.asList()
 
-    def itemsIds(self):
-        return "/".join([str(item.index) for item in self.items])
-
-    def itemsAsList(self):
-        return [item.index for item in self.items]
-
 
 class Position:
     def __init__(self, x, y):

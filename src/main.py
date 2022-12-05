@@ -46,14 +46,14 @@ with open('out/fares.csv', 'w', encoding='UTF8', newline='') as f:
     for fare in fares:
         writer.writerow(fare.asList())
 
-with open('out/items_per_vehicle.csv', 'w', encoding='UTF8') as f:
+with open('out/items_per_vehicle.csv', 'w', encoding='UTF8', newline='') as f:
     itemsPerVehicle = ItemTypePerVehicleType()
     writer = csv.writer(f)
     writer.writerow(itemsPerVehicle.header())
     for item in itemsPerVehicle.asList():
         writer.writerow(item)
 
-with open('out/clients_per_carrier.csv', 'w', encoding='UTF8') as f:
+with open('out/clients_per_carrier.csv', 'w', encoding='UTF8', newline='') as f:
     writer = csv.writer(f)
     writer.writerow(['carrier_id', 'client_id'])
     for carrier in carriers:

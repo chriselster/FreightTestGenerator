@@ -12,7 +12,8 @@ class Fare:
         self.carrierId = carrierId
 
     def asList(self):
-        return [self.vehicleType, self.fare, self.carrierId]
+        # round to 2 decimals
+        return [self.vehicleType, round(self.fare, 2), self.carrierId]
 
 
 class FareFactory:
