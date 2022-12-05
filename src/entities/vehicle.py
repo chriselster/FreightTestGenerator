@@ -3,7 +3,7 @@ import random
 from entities.ParamReader import ParamReader
 
 
-class Veichle:
+class Vehicle:
     @staticmethod
     def header():
         return ['index', 'type', 'capacity', 'carrierId']
@@ -21,16 +21,16 @@ class Veichle:
         return [self.index, self.type, self.capacity, self.carrierId]
 
 
-class VeichleFactory:
+class VehicleFactory:
     def __init__(self):
         self.index = 0
         self.read_params()
 
     def create(self, carrierId):
-        veichle = Veichle(self.index, self.generate_type(),
+        vehicle = Vehicle(self.index, self.generate_type(),
                           self.generate_capacity(), carrierId)
         self.index += 1
-        return veichle
+        return vehicle
 
     def generate_type(self):
         return random.choice(self.types)
@@ -39,7 +39,7 @@ class VeichleFactory:
         return random.choice(self.possible_capacities)
 
     def read_params(self):
-        with open("in/veichle_params.txt", "r") as f:
+        with open("in/vehicle_params.txt", "r") as f:
             reader = ParamReader(f.read().splitlines())
             self.types = reader.next()
             self.possible_capacities = reader.next()

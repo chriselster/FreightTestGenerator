@@ -10,20 +10,39 @@ class Carrier:
     def header():
         return ['id', 'quadrantId', 'minimumCapacity', 'costPerAdditionalCustomer', 'discoutPerCapacityIncrease', 'maxDistanceBetweenCustomers']
 
-    def __init__(self, index,    quadrants, minimumCapacity, costPerAdditionalCustomer, discoutPerCapacityIncrease, maxDistanceBetweenCustomers):
+    def __init__(self, index,    quadrantId, minimumCapacity, costPerAdditionalCustomer, discoutPerCapacityIncrease, maxDistanceBetweenCustomers):
         self.id = index
-        # Cost per weight per km for each veichle type
-        self.quadrants = quadrants
-        # Percentage of the veichle capacity that must be filled
+        # Cost per weight per km for each vehicle type
+        self.quadrantId = quadrantId
+        # Percentage of the vehicle capacity that must be filled
         self.minimumCapacity = minimumCapacity
         # Base value +- 10%
         self.costPerAdditionalCustomer = costPerAdditionalCustomer
         self.discoutPerCapacityIncrease = discoutPerCapacityIncrease
         # 5% / 2,5%
         self.maxDistanceBetweenCustomers = maxDistanceBetweenCustomers
+        self.clients = []
 
     def asList(self):
-        return [self.id, self.quadrants, self.minimumCapacity, self.costPerAdditionalCustomer, self.discoutPerCapacityIncrease, self.maxDistanceBetweenCustomers]
+        return [self.id, self.quadrantId, self.minimumCapacity, self.costPerAdditionalCustomer, self.discoutPerCapacityIncrease, self.maxDistanceBetweenCustomers]
+
+    def generateClientList(self, clients):
+        if (self.quadrantId == 0):
+            # x < 50 and y < 50
+            self.clients = [
+                client for client in clients if client.position.x < 50 and client.position.y < 50]
+        elif (self.quadrantId == 1):
+            # x > 50 and y < 50
+            self.clients = [
+                client for client in clients if client.position.x > 50 and client.position.y < 50]
+        elif (self.quadrantId == 2):
+            # x < 50 and y > 50
+            self.clients = [
+                client for client in clients if client.position.x < 50 and client.position.y > 50]
+        elif (self.quadrantId == 3):
+            # x > 50 and y > 50
+            self.clients = [
+                client for client in clients if client.position.x > 50 and client.position.y > 50]
 
 
 class CarrierFactory:

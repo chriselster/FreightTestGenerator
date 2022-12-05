@@ -4,14 +4,16 @@ from entities.carrier import Carrier
 from entities.client import Client
 from entities.fare import Fare
 from entities.item import Item
-from entities.ItemTypePerVeichleType import ItemTypePerVeichleType
+from entities.ItemTypePerVehicleType import ItemTypePerVehicleType
 from entities.TestGenerator import TestGenerator
-from entities.veichle import Veichle
+from entities.vehicle import Vehicle
 
 generator = TestGenerator()
 clients, items = generator.buildClients()
-carriers, veichles = generator.buildCarriers()
-fares = generator.buildFares()
+carriers, vehicles = generator.buildCarriers()
+for carrier in carriers:
+    carrier.generateClientList(clients)
+fares = generator.buildFares(len(carriers))
 quadrants = generator.buildQuadrants()
 
 with open('out/clients.csv', 'w', encoding='UTF8', newline='') as f:
@@ -32,11 +34,11 @@ with open('out/items.csv', 'w', encoding='UTF8', newline='') as f:
     for item in items:
         writer.writerow(item.asList())
 
-with open('out/veichles.csv', 'w', encoding='UTF8', newline='') as f:
+with open('out/vehicles.csv', 'w', encoding='UTF8', newline='') as f:
     writer = csv.writer(f)
-    writer.writerow(Veichle.header())
-    for veichle in veichles:
-        writer.writerow(veichle.asList())
+    writer.writerow(Vehicle.header())
+    for vehicle in vehicles:
+        writer.writerow(vehicle.asList())
 
 with open('out/fares.csv', 'w', encoding='UTF8', newline='') as f:
     writer = csv.writer(f)
@@ -44,19 +46,19 @@ with open('out/fares.csv', 'w', encoding='UTF8', newline='') as f:
     for fare in fares:
         writer.writerow(fare.asList())
 
-with open('out/quadrants.csv', 'w', encoding='UTF8', newline='') as f:
+with open('out/items_per_vehicle.csv', 'w', encoding='UTF8') as f:
+    itemsPerVehicle = ItemTypePerVehicleType()
     writer = csv.writer(f)
-    writer.writerow(quadrants[0].header())
-    for quadrant in quadrants:
-        writer.writerow(quadrant.asList())
-
-with open('out/items_per_veichle.csv', 'w', encoding='UTF8') as f:
-    itemsPerVeichle = ItemTypePerVeichleType()
-    writer = csv.writer(f)
-    writer.writerow(itemsPerVeichle.header())
-    for item in itemsPerVeichle.asList():
+    writer.writerow(itemsPerVehicle.header())
+    for item in itemsPerVehicle.asList():
         writer.writerow(item)
 
+with open('out/clients_per_carrier.csv', 'w', encoding='UTF8') as f:
+    writer = csv.writer(f)
+    writer.writerow(['carrier_id', 'client_id'])
+    for carrier in carriers:
+        for client in carrier.clients:
+            writer.writerow([carrier.id, client.index])
 
 # # Plot item positions
 # for client in clients:

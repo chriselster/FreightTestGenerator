@@ -19,5 +19,6 @@
 	"python.linting.pylintArgs": [
 		"--init-hook",
 		"import sys; sys.path.append('./src/entities')"
-	]
+	],
+	"python.linting.mypyEnabled": false
 }

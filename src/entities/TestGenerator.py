@@ -8,30 +8,32 @@ from entities.fare import FareFactory
 from entities.item import ItemFactory
 from entities.ParamReader import ParamReader
 from entities.utils import Quadrants
-from entities.veichle import VeichleFactory
+from entities.vehicle import VehicleFactory
 
 
 class TestGenerator:
     itemFactory = ItemFactory()
-    veichleFactory = VeichleFactory()
+    vehicleFactory = VehicleFactory()
     carrierFactory = CarrierFactory()
+    fareFactory = FareFactory()
 
     def __init__(self):
         with open('in/cluster_params.txt', 'r') as f:
             reader = ParamReader(f.readlines())
             seed(int(reader.next()[0]))  # type: ignore
 
-    @staticmethod
-    def buildFares():
+    def buildFares(self, carriersLength):
+        self.fareFactory.readParams()
         fares = []
-        with open("in/fares.txt") as f:
-            fares.extend(FareFactory.createFare(line) for line in f)
+        for carrierId in range(1, carriersLength + 1):
+            fares.extend(self.fareFactory.createFares(carrierId))
+
         return fares
 
     def buildClients(self):
         clients = []
         allItems = []
-        for index, point in enumerate(PointsGenerator().generate()):  # type: ignore
+        for index, point in enumerate(PointsGenerator().generate(), 1):  # type: ignore
             items = []
             items.extend(self.itemFactory.create(index)
                          for _ in range(randint(1, 5)))
@@ -42,15 +44,15 @@ class TestGenerator:
 
     def buildCarriers(self):
         carriers = []
-        allVeichles = []
-        for index in range(5):
-            veichles = []
-            veichles.extend(self.veichleFactory.create(index)
+        allVehicles = []
+        for index in range(1, 6):
+            vehicles = []
+            vehicles.extend(self.vehicleFactory.create(index)
                             for _ in range(10))
-            allVeichles.extend(veichles)
+            allVehicles.extend(vehicles)
             carriers.append(self.carrierFactory.generate())
 
-        return carriers, allVeichles
+        return carriers, allVehicles
 
     def buildQuadrants(self):
         return [Quadrants(i+1) for i in range(5)]
