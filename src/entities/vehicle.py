@@ -23,7 +23,7 @@ class Vehicle:
 
 class VehicleFactory:
     def __init__(self):
-        self.index = 0
+        self.index = 1
         self.read_params()
 
     def create(self, carrierId):
