@@ -1,3 +1,4 @@
+import matplotlib.pyplot as plt
 import csv
 
 from entities.carrier import Carrier
@@ -61,9 +62,9 @@ with open('out/clients_per_carrier.csv', 'w', encoding='UTF8', newline='') as f:
             writer.writerow([carrier.id, client.index])
 
 # # Plot item positions
-# for client in clients:
-#     plt.scatter(client.position.x, client.position.y,  s=0.2, c='red')
-#
-# plt.scatter(50, 50, c='green')
-#
-# plt.show()
+for client in clients:
+    plt.scatter(client.position.x, client.position.y,  s=0.2, c='red')
+
+plt.scatter(50, 50, c='green')
+
+plt.show()

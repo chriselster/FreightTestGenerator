@@ -39,8 +39,20 @@ class PointsGenerator:
         for point in self.create_random_points():
             yield Position(point[0], point[1])
 
+    def normalize(self, points):
+        min_x = min(points, key=lambda x: x[0])[0]
+        max_x = max(points, key=lambda x: x[0])[0]
+        min_y = min(points, key=lambda x: x[1])[1]
+        max_y = max(points, key=lambda x: x[1])[1]
+        return [
+            [
+                (point[0] - min_x) / (max_x - min_x) * 100,
+                (point[1] - min_y) / (max_y - min_y) * 100,
+            ]
+            for point in points
+        ]
+
     def create_random_points(self):
-        # random points around 50,50
         points = []
         for _ in range(self.amount):
             point = [50, 50]
@@ -77,10 +89,8 @@ class PointsGenerator:
 
     def generate_centers(self):
         centers = []
-        point = [uniform(0, 100), uniform(0, 100)]
         for _ in range(self.centers):
-            point[0] = (point[0]+uniform(70, 90)) % 100
-            point[1] = (point[1]+uniform(70, 90)) % 100
+            point = [uniform(0, 100), uniform(0, 100)]
             centers.append(copy(point))
         return centers
 
