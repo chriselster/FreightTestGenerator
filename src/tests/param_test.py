@@ -6,8 +6,8 @@ from entities.ParamReader import ParamReader
 
 class TestItem(TestCase):
     def testFareCreation(self):
-        fare = Fare(1, 2)
-        assert fare.asList() == [1, 2]
+        fare = Fare(1, 2, 3)
+        assert fare.asList() == [1, 2, 3]
 
     def testParamReading(self):
         result = ParamReader.getTokens("test: 1,2,3,4")

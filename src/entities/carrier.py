@@ -22,19 +22,15 @@ class Carrier:
                  discoutPerCapacityIncrease,
                  maxDistanceBetweenCustomers):
         self.id = index
-        # Cost per weight per km for each vehicle type
         self.quadrants = quadrants
-        # Percentage of the vehicle capacity that must be filled
         self.minimumCapacity = minimumCapacity
-        # Base value +- 10%
         self.costPerAdditionalCustomer = costPerAdditionalCustomer
-
-        # Desconto por kg total do caminhão
         self.discoutPerCapacityIncrease = discoutPerCapacityIncrease
-
-        # 5% / 2,5%
         self.maxDistanceBetweenCustomers = maxDistanceBetweenCustomers
         self.clients = []
+        self.vehicle_capacities = []
+        self.accepted_types = []
+        self.fares = {}
 
     def asList(self):
         return [self.id,
@@ -45,29 +41,45 @@ class Carrier:
 
     def generateClientList(self, clients):
         if self.quadrants.count(1) == 1:
-            # x < 50 and y < 50
             self.clients += [
                 client for client in clients if client.position.x < 50 and client.position.y < 50]
+
         if self.quadrants.count(2) == 1:
-            # x > 50 and y < 50
             self.clients += [
                 client for client in clients if client.position.x > 50 and client.position.y < 50]
+
         if self.quadrants.count(3) == 1:
-            # x < 50 and y > 50
             self.clients += [
                 client for client in clients if client.position.x < 50 and client.position.y > 50]
+
         if self.quadrants.count(4) == 1:
-            # x > 50 and y > 50
             self.clients += [
                 client for client in clients if client.position.x > 50 and client.position.y > 50]
+
+    def add_vehicle_capacities(self, weights):
+        self.vehicle_capacities = weights
+
+    def add_accepted_types(self, types):
+        self.accepted_types = types
+
+    def add_fare(self, vehicle_type, fare):
+        self.fares[vehicle_type] = fare
+
+    def add_vehicle(self, vehicle):
+        vehicle.type = random.choice(self.accepted_types)
+        vehicle.capacity = random.choice(self.vehicle_capacities)
+        vehicle.deadFreight = vehicle.capacity * self.minimumCapacity
+        vehicle.costPerKmPerWeight = self.fares[vehicle.type]
+        index = self.vehicle_capacities.index(vehicle.capacity)
+        vehicle.costPerKmPerWeight -= 0.5 * index
 
 
 class CarrierFactory:
 
     def __init__(self):
         self.index = 0
-        self.quadrants = []
-        self.minimumCapacity = []
+        self.possibleQuadrants = []
+        self.possibleMinimumCapacities = []
         self.costPerAdditionalCustomer = 0
         self.discoutPerCapacityIncrease = 0.2
         self.maxDistanceBetweenCustomers = []
@@ -76,8 +88,8 @@ class CarrierFactory:
     def generate(self):
         self.index += 1
         return Carrier(self.index,
-                       self.quadrants[self.index-1],
-                       random.choice(self.minimumCapacity),
+                       self.possibleQuadrants[self.index-1],
+                       random.choice(self.possibleMinimumCapacities),
                        self.costPerAdditionalCustomer,
                        self.discoutPerCapacityIncrease,
                        random.choice(self.maxDistanceBetweenCustomers),
@@ -88,8 +100,8 @@ class CarrierFactory:
             params = f.read().splitlines()
             reader = ParamReader(params)
             reader.next()
-            self.quadrants = reader.next()
-            self.minimumCapacity = reader.next()
+            self.possibleQuadrants = reader.next()
+            self.possibleMinimumCapacities = reader.next()
             self.costPerAdditionalCustomer = reader.next()[0]
             self.maxDistanceBetweenCustomers = reader.next()
             self.discoutPerCapacityIncrease = reader.next()[0]

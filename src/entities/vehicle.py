@@ -13,6 +13,13 @@ class Vehicle:
         self.type = _type
         self.capacity = capacity
         self.carrierId = carrierId
+        self.deadFreight = 0
+        self.costPerKmPerWeight = 0
+
+    @staticmethod
+    # empty vehicle constructor
+    def empty():
+        return Vehicle(0, 0, 0, 0)
 
     def __str__(self):
         return f"{str(self.index)},{str(self.type)},{str(self.capacity)},"
