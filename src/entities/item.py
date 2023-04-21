@@ -6,10 +6,10 @@ class Item:
     def header():
         return ['index', 'weight', 'type', 'clientId']
 
-    def __init__(self, index,  weight, type, clientId):
+    def __init__(self, index,  weight, _type, clientId):
         self.index = index
         self.weight = weight  # INTEGER
-        self.type = type
+        self.type = _type
         self.clientId = clientId
 
     def __str__(self):
@@ -37,7 +37,7 @@ class ItemFactory:
         return randint(1, self.types)
 
     def read_params(self):
-        with open("in/item_params.txt", "r") as f:
+        with open("in/item_params.txt", "r", encoding="utf-8") as f:
             params = f.read().splitlines()
             self.min_weight = float(self.parse_value(params[0]))
             self.max_weight = float(self.parse_value(params[1]))

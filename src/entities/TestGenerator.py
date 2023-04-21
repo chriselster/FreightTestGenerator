@@ -18,7 +18,7 @@ class TestGenerator:
     fareFactory = FareFactory()
 
     def __init__(self):
-        with open('in/cluster_params.txt', 'r') as f:
+        with open('in/cluster_params.txt', 'r', encoding="utf-8") as f:
             reader = ParamReader(f.readlines())
             seed(int(reader.next()[0]))  # type: ignore
 

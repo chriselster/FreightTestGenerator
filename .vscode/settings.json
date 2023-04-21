@@ -18,7 +18,17 @@
 	],
 	"python.linting.pylintArgs": [
 		"--init-hook",
-		"import sys; sys.path.append('./src/entities')"
+		"import sys; sys.path.append('./src/entities')",
+		"--disable=C0103",
+		"--disable=C0116",
+		"--disable=C0115",
+		"--disable=C0114",
+		"--disable=W0632",
+		"--disable=C0201",
 	],
-	"python.linting.mypyEnabled": false
+	"python.linting.mypyEnabled": false,
+	"[python]": {
+		"editor.defaultFormatter": "ms-python.autopep8"
+	},
+	"python.formatting.provider": "none",
 }

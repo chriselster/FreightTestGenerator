@@ -11,7 +11,7 @@ class ItemTypePerVehicleType:
         self.readParams()
 
     def readParams(self):
-        with open("in/itens_per_vehicle.txt", "r") as f:
+        with open("in/itens_per_vehicle.txt", "r", encoding="utf-8") as f:
             reader = ParamReader(f.read().splitlines())
             vehicleType = 1
             while reader.hasNext():

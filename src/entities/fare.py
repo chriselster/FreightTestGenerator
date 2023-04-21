@@ -20,7 +20,7 @@ class FareFactory:
     maxFarePerVehicleType = {}
 
     def readParams(self):
-        with open("in/fares.txt", "r") as f:
+        with open("in/fares.txt", "r", encoding="utf-8") as f:
             lines = f.readlines()
             for line in lines:
                 tokens = line.split(",")
@@ -28,8 +28,11 @@ class FareFactory:
                     tokens[0].strip())] = float(tokens[1].strip())
 
     def createFares(self, carrierId):
-        fares = []
-        for vehicleType in self.maxFarePerVehicleType.keys():
-            fares.append(Fare(vehicleType, random.uniform(
-                0, self.maxFarePerVehicleType[vehicleType]), carrierId))
-        return fares
+        return [
+            Fare(
+                vehicleType,
+                random.uniform(0, self.maxFarePerVehicleType[vehicleType]),
+                carrierId,
+            )
+            for vehicleType in self.maxFarePerVehicleType.keys()
+        ]

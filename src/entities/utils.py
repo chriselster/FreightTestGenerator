@@ -1,13 +1,13 @@
 class Quadrants:
-    def __init__(self, type):
+    def __init__(self, _type):
         self.topLeft = False
         self.topRight = False
         self.bottomLeft = False
         self.bottomRight = False
-        self.switchByType(type)
+        self.switchByType(_type)
 
-    def switchByType(self, type):
-        match type:
+    def switchByType(self, _type):
+        match _type:
             case 1:
                 self.topLeft = True
                 self.topRight = True

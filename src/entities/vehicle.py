@@ -8,9 +8,9 @@ class Vehicle:
     def header():
         return ['index', 'type', 'capacity', 'carrierId']
 
-    def __init__(self, index, type, capacity, carrierId):
+    def __init__(self, index, _type, capacity, carrierId):
         self.index = index
-        self.type = type
+        self.type = _type
         self.capacity = capacity
         self.carrierId = carrierId
 
@@ -39,7 +39,7 @@ class VehicleFactory:
         return random.choice(self.possible_capacities)
 
     def read_params(self):
-        with open("in/vehicle_params.txt", "r") as f:
+        with open("in/vehicle_params.txt", "r", encoding="utf-8") as f:
             reader = ParamReader(f.read().splitlines())
             self.types = reader.next()
             self.possible_capacities = reader.next()

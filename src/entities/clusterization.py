@@ -95,7 +95,7 @@ class PointsGenerator:
         return centers
 
     def read_params(self):
-        with open('in/cluster_params.txt', 'r') as f:
+        with open('in/cluster_params.txt', 'r', encoding="utf-8") as f:
             lines = f.readlines()
             self.seed = int(self.parse_value(lines[0]))
             self.amount = int(self.parse_value(lines[1]))
