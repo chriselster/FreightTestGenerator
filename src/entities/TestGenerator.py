@@ -8,7 +8,7 @@ from entities.fare import FareFactory
 from entities.item import ItemFactory
 from entities.ParamReader import ParamReader
 from entities.utils import Quadrants
-from entities.vehicle import VehicleFactory
+from Vehicle import VehicleFactory
 
 
 class TestGenerator:

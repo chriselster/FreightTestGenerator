@@ -7,7 +7,7 @@ from entities.fare import Fare
 from entities.item import Item
 from entities.ItemTypePerVehicleType import ItemTypePerVehicleType
 from entities.TestGenerator import TestGenerator
-from entities.vehicle import Vehicle
+from Vehicle import Vehicle
 
 generator = TestGenerator()
 clients, items = generator.buildClients()

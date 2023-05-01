@@ -1,7 +1,7 @@
 from unittest import TestCase
 
 from entities.carrier import Carrier
-from entities.vehicle import Vehicle
+from entities.Vehicle import Vehicle
 
 
 class CarrierTest(TestCase):
@@ -16,7 +16,7 @@ class CarrierTest(TestCase):
         carrier.add_vehicle(vehicle)
         assert vehicle.type in [1, 2]
         assert vehicle.capacity in [50, 100]
-        self.assertEqual(vehicle.deadFreight, 0.2*vehicle.capacity)
+        self.assertEqual(vehicle.min_capacity, 0.2*vehicle.capacity)
         self.assertEqual(vehicle.costPerKmPerWeight, 2 -
                          (0 if vehicle.capacity == 50 else 0.5))
         self.assertEqual(vehicle.carrierId, carrier.id)

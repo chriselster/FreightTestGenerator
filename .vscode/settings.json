@@ -1,7 +1,7 @@
 {
 	"editor.insertSpaces": false,
-	"python.testing.pytestEnabled": true,
-	"python.testing.unittestEnabled": false,
+	"python.testing.pytestEnabled": false,
+	"python.testing.unittestEnabled": true,
 	"python.linting.enabled": true,
 	"python.linting.pylintEnabled": true,
 	"python.analysis.typeCheckingMode": "basic",
@@ -21,7 +21,7 @@
 	],
 	"python.linting.mypyEnabled": false,
 	"[python]": {
-		"editor.defaultFormatter": "ms-python.autopep8"
+		"editor.defaultFormatter": "ms-python.python"
 	},
 	"python.formatting.provider": "none",
 	"python.testing.pytestArgs": [
