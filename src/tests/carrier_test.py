@@ -1,7 +1,7 @@
 from unittest import TestCase
 
 from entities.carrier import Carrier
-from entities.Vehicle import Vehicle
+from entities.vehicle import Vehicle
 
 
 class CarrierTest(TestCase):

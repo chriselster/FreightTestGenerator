@@ -10,6 +10,8 @@ class Vehicle:
         self.carrierId = carrierId
         self.min_capacity = 0
         self.costPerKmPerWeight = 0
+        self.additionalDeliveryCost = 0
+        self.maxDistanceBetweenCustomers = 0
 
     @staticmethod
     # empty vehicle constructor
