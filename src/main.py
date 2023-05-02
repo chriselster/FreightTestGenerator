@@ -36,11 +36,11 @@ with open('out/clients_per_carrier.csv', 'w', encoding='UTF8', newline='') as f:
     writer.writerow(['carrier_id', 'client_id'])
     for carrier in carriers:
         for client in carrier.clients:
-            writer.writerow([carrier.id, client.index])
+            writer.writerow([carrier.index, client.index])
 
 # # Plot item positions
 for client in clients:
-    plt.scatter(client.position.x, client.position.y,  s=0.2, c='red')
+    plt.scatter(client.x, client.y,  s=0.2, c='red')
 
 plt.scatter(50, 50, c='green')
 

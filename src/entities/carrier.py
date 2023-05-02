@@ -38,19 +38,19 @@ class Carrier:
     def generateClientList(self, clients):
         if self.quadrants.count(1) == 1:
             self.clients += [
-                client for client in clients if client.position.x < 50 and client.position.y < 50]
+                client for client in clients if client.x < 50 and client.y < 50]
 
         if self.quadrants.count(2) == 1:
             self.clients += [
-                client for client in clients if client.position.x > 50 and client.position.y < 50]
+                client for client in clients if client.x > 50 and client.y < 50]
 
         if self.quadrants.count(3) == 1:
             self.clients += [
-                client for client in clients if client.position.x < 50 and client.position.y > 50]
+                client for client in clients if client.x < 50 and client.y > 50]
 
         if self.quadrants.count(4) == 1:
             self.clients += [
-                client for client in clients if client.position.x > 50 and client.position.y > 50]
+                client for client in clients if client.x > 50 and client.y > 50]
 
     def add_vehicle_capacities(self, weights):
         self.vehicle_capacities = weights

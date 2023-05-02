@@ -4,6 +4,7 @@ from entities.vehicle import Vehicle
 
 class VehicleFactory:
     def __init__(self):
+        self.index = 0
         self.capacities = []
         self.min_capacity_factors = []
         self.cost_per_km_per_weight = []
@@ -13,11 +14,13 @@ class VehicleFactory:
         self.carrier_id = 0
 
     def generate(self, quantity) -> list[Vehicle]:
-        return [self.buildVehicle(index) for index in range(quantity)]
+        return [self.buildVehicle() for _ in range(quantity)]
 
-    def buildVehicle(self, index) -> Vehicle:
+    def buildVehicle(self) -> Vehicle:
+
         vehicle = Vehicle.empty()
-        vehicle.index = index
+        vehicle.index = self.index
+        self.index += 1
         vehicle.capacity = choice(self.capacities)
         vehicle.min_capacity = choice(
             self.min_capacity_factors) * vehicle.capacity
