@@ -2,8 +2,6 @@
 
 import random
 
-from entities.ParamReader import ParamReader
-
 
 class Carrier:
     quadrants = []
@@ -14,15 +12,15 @@ class Carrier:
 
     def __init__(self, index,
                  quadrants,
-                 minimumCapacity,
+                 minimalContractedLoadPercentage,
                  costPerAdditionalCustomer,
                  discoutPerCapacityIncrease,
                  maxDistanceBetweenCustomers):
         self.index = index
         self.quadrants = quadrants
-        self.minimumCapacity = minimumCapacity
+        self.minimalContractedLoadPercentage = minimalContractedLoadPercentage
         self.costPerAdditionalCustomer = costPerAdditionalCustomer
-        self.discoutPerCapacityIncrease = discoutPerCapacityIncrease
+        self.discountPerCapacityIncrease = discoutPerCapacityIncrease
         self.maxDistanceBetweenCustomers = maxDistanceBetweenCustomers
         self.clients = []
         self.vehicle_capacities = []
@@ -32,9 +30,9 @@ class Carrier:
 
     def asList(self):
         return [self.index,
-                self.minimumCapacity,
+                self.minimalContractedLoadPercentage,
                 self.costPerAdditionalCustomer,
-                self.discoutPerCapacityIncrease,
+                self.discountPerCapacityIncrease,
                 self.maxDistanceBetweenCustomers]
 
     def generateClientList(self, clients):
@@ -66,40 +64,7 @@ class Carrier:
     def add_vehicle(self, vehicle):
         vehicle.type = random.choice(self.accepted_types)
         vehicle.capacity = random.choice(self.vehicle_capacities)
-        vehicle.deadFreight = vehicle.capacity * self.minimumCapacity
+        vehicle.deadFreight = vehicle.capacity * self.minimalContractedLoadPercentage
         vehicle.costPerKmPerWeight = self.fares[vehicle.type]
         index = self.vehicle_capacities.index(vehicle.capacity)
         vehicle.costPerKmPerWeight -= 0.5 * index
-
-
-class CarrierFactory:
-
-    def __init__(self):
-        self.index = 0
-        self.possibleQuadrants = []
-        self.possibleMinimumCapacities = []
-        self.costPerAdditionalCustomer = 0
-        self.discoutPerCapacityIncrease = 0.2
-        self.maxDistanceBetweenCustomers = []
-        self.read_params()
-
-    def generate(self):
-        self.index += 1
-        return Carrier(self.index,
-                       self.possibleQuadrants[self.index-1],
-                       random.choice(self.possibleMinimumCapacities),
-                       self.costPerAdditionalCustomer,
-                       self.discoutPerCapacityIncrease,
-                       random.choice(self.maxDistanceBetweenCustomers),
-                       )
-
-    def read_params(self):
-        with open("in/carriers_params.txt", "r", encoding=" utf-8") as f:
-            params = f.read().splitlines()
-            reader = ParamReader(params)
-            reader.next()
-            self.possibleQuadrants = reader.next()
-            self.possibleMinimumCapacities = reader.next()
-            self.costPerAdditionalCustomer = reader.next()[0]
-            self.maxDistanceBetweenCustomers = reader.next()
-            self.discoutPerCapacityIncrease = reader.next()[0]

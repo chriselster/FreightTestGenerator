@@ -1,2 +1,2 @@
-types: 1
+types: 1,2
 possible_capacities: 25, 30, 35, 40, 45, 50

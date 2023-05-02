@@ -9,13 +9,15 @@ class VehicleFactory:
         self.cost_per_km_per_weight = []
         self.additional_delivery_costs = []
         self.max_distance_between_customers = []
+        self.possible_types = []
         self.carrier_id = 0
 
-    def generate(self, quantity):
-        return [self.buildVehicle() for _ in range(quantity)]
+    def generate(self, quantity) -> list[Vehicle]:
+        return [self.buildVehicle(index) for index in range(quantity)]
 
-    def buildVehicle(self):
+    def buildVehicle(self, index) -> Vehicle:
         vehicle = Vehicle.empty()
+        vehicle.index = index
         vehicle.capacity = choice(self.capacities)
         vehicle.min_capacity = choice(
             self.min_capacity_factors) * vehicle.capacity
@@ -24,6 +26,7 @@ class VehicleFactory:
         vehicle.maxDistanceBetweenCustomers = choice(
             self.max_distance_between_customers)
         vehicle.carrierId = self.carrier_id
+        vehicle.type = choice(self.possible_types)
         return vehicle
 
     def set_capacities(self, capacities):
@@ -43,3 +46,6 @@ class VehicleFactory:
 
     def set_carrier_id(self, carrier_id):
         self.carrier_id = carrier_id
+
+    def set_possible_types(self, possible_types):
+        self.possible_types = possible_types

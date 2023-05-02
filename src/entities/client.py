@@ -1,21 +1,8 @@
 class Client:
-    @staticmethod
-    def header():
-        return ['index', 'X_coordinate', 'Y_coordinate']
-
-    def __init__(self, index, position, items):
+    def __init__(self, index, x, y):
         self.index = index
-        self.position = position
-        self.items = items
-
-    def __str__(self):
-        out = f'{self.index}, {self.position}, {len(self.items)}\n'
-        for item in self.items:
-            out += f'{item}\n'
-        return out
-
-    def asList(self):
-        return [self.index] + self.position.asList()
+        self.x = x
+        self.y = y
 
 
 class Position:

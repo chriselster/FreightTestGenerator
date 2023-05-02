@@ -1,14 +1,16 @@
 
 from random import randint, seed
 
-from entities.carrier import CarrierFactory
+
 from entities.client import Client
 from entities.clusterization import PointsGenerator
+from entities.carrier import Carrier
 from entities.fare import FareFactory
-from entities.item import ItemFactory
 from entities.ParamReader import ParamReader
 from entities.utils import Quadrants
-from Vehicle import VehicleFactory
+from factories.VehicleFactory import VehicleFactory
+from factories.ItemFactory import ItemFactory
+from factories.CarrierFactory import CarrierFactory
 
 
 class TestGenerator:
@@ -22,37 +24,72 @@ class TestGenerator:
             reader = ParamReader(f.readlines())
             seed(int(reader.next()[0]))  # type: ignore
 
-    def buildFares(self, carriersLength):
-        self.fareFactory.readParams()
-        fares = []
-        for carrierId in range(1, carriersLength + 1):
-            fares.extend(self.fareFactory.createFares(carrierId))
-
-        return fares
-
     def buildClients(self):
         clients = []
-        allItems = []
         for index, point in enumerate(PointsGenerator().generate(), 1):  # type: ignore
-            items = []
-            items.extend(self.itemFactory.create(index)
-                         for _ in range(randint(1, 5)))
-            allItems.extend(items)
-            clients.append(Client(index, point, items))
+            clients.append(Client(index, point.x, point.y))
+        return clients
 
-        return clients, allItems
+    def buildItems(self, clients):
+        result = []
+        with open('in/item_params.txt', 'r', encoding="utf-8") as f:
+            reader = ParamReader(f.readlines())
+        self.itemFactory.set_min_weight(
+            float(reader.next()[0]))  # type: ignore
+        self.itemFactory.set_max_weight(
+            float(reader.next()[0]))  # type: ignore
+        self.itemFactory.set_types(int(reader.next()[0]))  # type: ignore
+        for index in enumerate(clients):
+            self.itemFactory.set_client_id(clients[index])
+            result.extend(self.itemFactory.generate(randint(1, 5)))
+        return result
 
     def buildCarriers(self):
-        carriers = []
-        allVehicles = []
-        for index in range(1, 6):
-            vehicles = []
-            vehicles.extend(self.vehicleFactory.create(index)
-                            for _ in range(10))
-            allVehicles.extend(vehicles)
-            carriers.append(self.carrierFactory.generate())
+        with open('in/carriers_params.txt', 'r', encoding="utf-8") as f:
+            reader = ParamReader(f.readlines())
+        quantity = int(reader.next()[0])  # type: ignore
+        self.carrierFactory.setQuadrants(reader.next())  # type: ignore
+        self.carrierFactory.setMinimalContractedLoadPercentages(
+            reader.next())  # type: ignore
+        self.carrierFactory.setCostsPerAdditionalCustomer(
+            reader.next())  # type: ignore
+        self.carrierFactory.setMaxDistanceBetweenCustomers(
+            reader.next())  # type: ignore
+        self.carrierFactory.discountsPerCapacityIncrease(
+            reader.next())  # type: ignore
+        self.carrierFactory.baseCosts(
+            reader.next())  # type: ignore
+        return self.carrierFactory.generate(quantity)
 
-        return carriers, allVehicles
+    def buildVehicles(self,  carriers: list[Carrier]):
+        with open('in/vehicles_params.txt', 'r', encoding="utf-8") as f:
+            reader = ParamReader(f.readlines())
+        types = reader.next()  # type: ignore
+        capacities = reader.next()  # type: ignore
+        self.vehicleFactory.set_possible_types(types)
+        self.vehicleFactory.set_capacities(capacities)
+        with open('in/fares.txt', 'r', encoding="utf-8") as f:
+            reader = ParamReader(f.readlines())
+        fares = reader.next()  # type: ignore
+        result = []
+        for carrier in carriers:
+            self.vehicleFactory.set_additional_delivery_costs(
+                [carrier.costPerAdditionalCustomer])
+            self.vehicleFactory.set_max_distance_between_customers(
+                [carrier.maxDistanceBetweenCustomers])
+            self.vehicleFactory.set_carrier_id(carrier.index)
+            self.vehicleFactory.set_min_capacity_factors(
+                [carrier.minimalContractedLoadPercentage])
+            self.vehicleFactory.set_cost_per_km_per_weight(
+                [carrier.baseCost])
+            vehicles = self.vehicleFactory.generate(5)
+            for vehicle in vehicles:
+                # subtract index of vehicle weight in capacities * carrier.discountPerCapacityIncrease
+                vehicle.costPerKmPerWeight = (vehicle.costPerKmPerWeight -
+                                              capacities.index(vehicle.capacity) *
+                                              carrier.discountPerCapacityIncrease) * fares[vehicle.type-1]
+            result.extend(vehicles)
+        return result
 
     def buildQuadrants(self):
         return [Quadrants(i+1) for i in range(5)]

@@ -17,12 +17,20 @@ class VehicleFactoryTest(TestCase):
         self.factory.set_additional_delivery_costs([0.1, 0.2])
         self.factory.set_max_distance_between_customers([10, 20])
         self.factory.set_carrier_id(1)
+        self.factory.set_possible_types([1, 2, 3])
         return super().setUp()
 
     def test_generate(self):
         vehicles = self.factory.generate(2)
         self.assertEqual(len(vehicles), 2)
         self.assertIsInstance(vehicles[0], Vehicle)
+        self.assertEqual(vehicles[0].index, 0)
+        self.assertEqual(vehicles[1].index, 1)
+
+    def test_set_possible_types(self):
+        self.factory.set_possible_types([1, 2, 3])
+        vehicle = self.factory.generate(1)[0]
+        self.assertIn(vehicle.type, [1, 2, 3])
 
     def test_set_possible_capacities(self):
         self.factory.set_capacities([1, 2, 3])
@@ -42,9 +50,6 @@ class VehicleFactoryTest(TestCase):
         vehicle = self.factory.generate(1)[0]
         self.assertIn(vehicle.costPerKmPerWeight, cost_per_km_per_weight)
 
-    # additionalDeliveryCost
-# +maxDistanceBetweenCustomers
-# CarrierId
     def test_set_additional_delivery_cost(self):
         self.factory.set_additional_delivery_costs([0.1, 0.2])
         vehicle = self.factory.generate(1)[0]
