@@ -1,51 +1,28 @@
-import matplotlib.pyplot as plt
 import csv
+import matplotlib.pyplot as plt
 
-from entities.carrier import Carrier
-from entities.client import Client
-from entities.fare import Fare
-from entities.item import Item
+from entities.CSVGenerator import CSVGenerator
 from entities.ItemTypePerVehicleType import ItemTypePerVehicleType
 from entities.TestGenerator import TestGenerator
-from Vehicle import Vehicle
 
 generator = TestGenerator()
-clients, items = generator.buildClients()
-carriers, vehicles = generator.buildCarriers()
-for carrier in carriers:
-    carrier.generateClientList(clients)
-fares = generator.buildFares(len(carriers))
+clients = generator.buildClients()
+items = generator.buildItems(clients)
+carriers = generator.buildCarriers()
+vehicles = generator.buildVehicles(carriers)
 quadrants = generator.buildQuadrants()
 
-with open('out/clients.csv', 'w', encoding='UTF8', newline='') as f:
-    writer = csv.writer(f)
-    writer.writerow(Client.header())
-    for client in clients:
-        writer.writerow(client.asList())
+for carrier in carriers:
+    carrier.generateClientList(clients)
 
-with open('out/carriers.csv', 'w', encoding='UTF8', newline='') as f:
-    writer = csv.writer(f)
-    writer.writerow(Carrier.header())
-    for carrier in carriers:
-        writer.writerow(carrier.asList())
+with open('out/clients.csv', 'w', encoding='UTF8', newline='') as f:
+    f.write(CSVGenerator().generate(clients))
 
 with open('out/items.csv', 'w', encoding='UTF8', newline='') as f:
-    writer = csv.writer(f)
-    writer.writerow(Item.header())
-    for item in items:
-        writer.writerow(item.asList())
+    f.write(CSVGenerator().generate(items))
 
 with open('out/vehicles.csv', 'w', encoding='UTF8', newline='') as f:
-    writer = csv.writer(f)
-    writer.writerow(Vehicle.header())
-    for vehicle in vehicles:
-        writer.writerow(vehicle.asList())
-
-with open('out/fares.csv', 'w', encoding='UTF8', newline='') as f:
-    writer = csv.writer(f)
-    writer.writerow(Fare.header())
-    for fare in fares:
-        writer.writerow(fare.asList())
+    f.write(CSVGenerator().generate(vehicles))
 
 with open('out/items_per_vehicle.csv', 'w', encoding='UTF8', newline='') as f:
     itemsPerVehicle = ItemTypePerVehicleType()

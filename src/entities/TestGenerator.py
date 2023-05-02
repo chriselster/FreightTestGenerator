@@ -40,7 +40,7 @@ class TestGenerator:
             float(reader.next()[0]))  # type: ignore
         self.itemFactory.set_types(int(reader.next()[0]))  # type: ignore
         for index in enumerate(clients):
-            self.itemFactory.set_client_id(clients[index])
+            self.itemFactory.set_client_id(clients[index].index)
             result.extend(self.itemFactory.generate(randint(1, 5)))
         return result
 
@@ -54,7 +54,7 @@ class TestGenerator:
         self.carrierFactory.setCostsPerAdditionalCustomer(
             reader.next())  # type: ignore
         self.carrierFactory.setMaxDistanceBetweenCustomers(
-            reader.next())  # type: ignore
+            reader.next()*100)  # type: ignore
         self.carrierFactory.discountsPerCapacityIncrease(
             reader.next())  # type: ignore
         self.carrierFactory.baseCosts(
