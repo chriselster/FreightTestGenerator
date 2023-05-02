@@ -9,11 +9,8 @@ class Carrier:
     quadrants = []
 
     @staticmethod
-    def header():
-        return ['id', 'minimumCapacity',
-                'costPerAdditionalCustomer',
-                'discoutPerCapacityIncrease',
-                'maxDistanceBetweenCustomers',]
+    def fromIndex(index):
+        return Carrier(index, [], 0, 0, 0, 0)
 
     def __init__(self, index,
                  quadrants,
@@ -21,7 +18,7 @@ class Carrier:
                  costPerAdditionalCustomer,
                  discoutPerCapacityIncrease,
                  maxDistanceBetweenCustomers):
-        self.id = index
+        self.index = index
         self.quadrants = quadrants
         self.minimumCapacity = minimumCapacity
         self.costPerAdditionalCustomer = costPerAdditionalCustomer
@@ -31,9 +28,10 @@ class Carrier:
         self.vehicle_capacities = []
         self.accepted_types = []
         self.fares = {}
+        self.baseCost = 0
 
     def asList(self):
-        return [self.id,
+        return [self.index,
                 self.minimumCapacity,
                 self.costPerAdditionalCustomer,
                 self.discoutPerCapacityIncrease,
