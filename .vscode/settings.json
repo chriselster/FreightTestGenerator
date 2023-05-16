@@ -5,7 +5,7 @@
 	"python.linting.pylintEnabled": true,
 	//use spaces instead of tabs
 	"editor.insertSpaces": true,
-	"python.analysis.typeCheckingMode": "basic",
+	"python.analysis.typeCheckingMode": "off",
 	"python.analysis.extraPaths": [
 		"./src",
 		"./src/entities"
@@ -19,6 +19,7 @@
 		"--disable=C0114",
 		"--disable=W0632",
 		"--disable=C0201",
+		"--disable=W0201",
 	],
 	"python.linting.mypyEnabled": false,
 	"[python]": {

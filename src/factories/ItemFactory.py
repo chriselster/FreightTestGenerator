@@ -19,7 +19,7 @@ class ItemFactory:
         self.index += 1
         item.clientId = self.client_id
         item.type = choice(self.types)
-        item.weight = uniform(self.min_weight, self.max_weight)  # type: ignore
+        item.weight = uniform(self.min_weight, self.max_weight)
         return item
 
     def set_client_id(self, client_id):

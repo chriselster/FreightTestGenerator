@@ -6,8 +6,8 @@ from entities.ItemTypePerVehicleType import ItemTypePerVehicleType
 from entities.TestGenerator import TestGenerator
 
 generator = TestGenerator()
-clients = generator.buildClients()
-items = generator.buildItems(clients)
+items, numberOfClients = generator.buildItems()
+clients = generator.buildClients(numberOfClients)
 carriers = generator.buildCarriers()
 vehicles = generator.buildVehicles(carriers)
 quadrants = generator.buildQuadrants()

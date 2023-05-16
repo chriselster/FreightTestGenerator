@@ -1,7 +1,7 @@
 from copy import copy
 from enum import Enum
 from math import ceil
-from random import uniform
+from random import uniform, randint
 
 from sklearn.datasets import make_blobs
 
@@ -18,7 +18,8 @@ class PointsGenerator:
     def __init__(self):
         self.read_params()
 
-    def generate(self):
+    def generate(self, amount):
+        self.amount = amount
         if self.method == GenerationMethod.UNIFORM:
             return self.generate_uniform_clusters()
         if self.method == GenerationMethod.RANDOM:
@@ -55,8 +56,8 @@ class PointsGenerator:
         points = []
         for _ in range(self.amount):
             point = [50, 50]
-            point[0] += uniform(-50, 50)  # type: ignore
-            point[1] += uniform(-50, 50)  # type: ignore
+            point[0] += uniform(-50, 50)
+            point[1] += uniform(-50, 50)
             points.append(point)
 
         for point in points:
@@ -65,10 +66,8 @@ class PointsGenerator:
             yield point
 
     def create_cities(self):
-        portion = ceil(self.amount / self.centers * 2)
         points, _ = make_blobs(
-            n_samples=[portion * (self.centers + 1)]
-            + [portion for _ in range(self.centers - 1)],
+            n_samples=self.generate_city_sizes(),
             centers=self.generate_centers(),  # type: ignore
             cluster_std=self.cluster_std,
             random_state=self.seed,
@@ -79,14 +78,21 @@ class PointsGenerator:
             point[1] = round(point[1], 3)
             yield point
 
+    def generate_city_sizes(self):
+        assert self.centers >= self.amount
+        result = []
+        max_size = self.amount
+        for index in range(self.centers):
+            quantity = randint(1, max_size - (self.centers - (index + 1)))
+            max_size -= quantity
+            result.append(quantity)
+        return result
+
     def create_uniform_clusters(self):
-        portion = ceil(self.amount / self.centers)
-        centers = self.generate_centers()
-        print(centers)
         points, _ = make_blobs(
-            n_samples=[portion for _ in range(self.centers)],
+            n_samples=self.generate_city_sizes(),
             n_features=2,
-            centers=centers,  # type: ignore
+            centers=self.generate_centers(),
             cluster_std=self.cluster_std,
             random_state=self.seed,
         )

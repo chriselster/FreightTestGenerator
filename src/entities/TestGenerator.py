@@ -21,56 +21,56 @@ class TestGenerator:
     def __init__(self):
         with open("in/cluster_params.txt", "r", encoding="utf-8") as f:
             reader = ParamReader(f.readlines())
-            seed(int(reader.next()[0]))  # type: ignore
+            seed(int(reader.next()[0]))
 
-    def buildClients(self):
+    def buildClients(self, amount):
         clients = []
-        for index, point in enumerate(PointsGenerator().generate()):  # type: ignore
+        for index, point in enumerate(PointsGenerator().generate(amount)):
             clients.append(Client(index, point.x, point.y))
         return clients
 
-    def buildItems(self, clients):
+    def buildItems(self):
         result = []
         with open("in/item_params.txt", "r", encoding="utf-8") as f:
             reader = ParamReader(f.readlines())
-        self.itemFactory.set_min_weight(float(reader.next()[0]))  # type: ignore
-        self.itemFactory.set_max_weight(float(reader.next()[0]))  # type: ignore
-        self.itemFactory.set_types([int(reader.next()[0])])  # type: ignore
-        for index, _ in enumerate(clients):
-            self.itemFactory.set_client_id(clients[index].index)
-            result.extend(self.itemFactory.generate(randint(1, 5)))
-        return result
+        self.itemFactory.set_min_weight(float(reader.next()[0]))
+        self.itemFactory.set_max_weight(float(reader.next()[0]))
+        self.itemFactory.set_types([int(reader.next()[0])])
+        quantity = int(reader.next()[0])
+        total = 0
+        clientId = 0
+        while total < quantity:
+            numberOfItems = min(randint(1, 5), quantity - total)
+            self.itemFactory.set_client_id(clientId)
+            result.extend(self.itemFactory.generate(numberOfItems))
+            clientId += 1
+            total += numberOfItems
+        return result, clientId
 
     def buildCarriers(self) -> list[Carrier]:
         with open("in/carriers_params.txt", "r", encoding="utf-8") as f:
             reader = ParamReader(f.readlines())
-        quantity = int(reader.next()[0])  # type: ignore
-        self.carrierFactory.setQuadrants(reader.next())  # type: ignore
-        self.carrierFactory.setMinimalContractedLoadPercentages(
-            reader.next()
-        )  # type: ignore
-        self.carrierFactory.setCostsPerAdditionalCustomer(reader.next())  # type: ignore
-        self.carrierFactory.setMaxDistanceBetweenCustomers(
-            reader.next() * 100
-        )  # type: ignore
-        self.carrierFactory.setDiscountPerCapacityIncrease(
-            reader.next()
-        )  # type: ignore
-        self.carrierFactory.setBaseCosts(reader.next())  # type: ignore
+        quantity = int(reader.next()[0])
+        self.carrierFactory.setQuadrants(reader.next())
+        self.carrierFactory.setMinimalContractedLoadPercentages(reader.next())
+        self.carrierFactory.setCostsPerAdditionalCustomer(reader.next())
+        self.carrierFactory.setMaxDistanceBetweenCustomers(reader.next() * 100)
+        self.carrierFactory.setDiscountPerCapacityIncrease(reader.next())
+        self.carrierFactory.setBaseCosts(reader.next())
         return self.carrierFactory.generate(quantity)
 
     def buildVehicles(self, carriers: list[Carrier]):
         with open("in/vehicle_params.txt", "r", encoding="utf-8") as f:
             reader = ParamReader(f.readlines())
-        types = reader.next()  # type: ignore
-        capacities = reader.next()  # type: ignore
+        types = reader.next()
+        capacities = reader.next()
         # map types to int
-        types = [int(t) for t in types]  # type: ignore
+        types = [int(t) for t in types]
         self.vehicleFactory.set_possible_types(types)
         self.vehicleFactory.set_capacities(capacities)
         with open("in/fares.txt", "r", encoding="utf-8") as f:
             reader = ParamReader(f.readlines())
-        fares = reader.next()  # type: ignore
+        fares = reader.next()
         result = []
         for carrier in carriers:
             self.vehicleFactory.set_additional_delivery_costs(

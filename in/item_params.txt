@@ -1,3 +1,4 @@
 min_weight: 1
 max_weight: 25
 types: 1,2
+amount: 5

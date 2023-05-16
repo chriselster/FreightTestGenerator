@@ -1,5 +1,5 @@
 seed: 1
 client amount: 5
-centers: 4
+centers: 2
 method: 2
 cluster_std: 10.0

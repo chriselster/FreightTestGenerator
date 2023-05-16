@@ -15,10 +15,13 @@ class ItemTypePerVehicleType:
             reader = ParamReader(f.read().splitlines())
             vehicleType = 1
             while reader.hasNext():
-                items = map(int, reader.next())  # type: ignore
+                items = map(int, reader.next())
                 self.allowedItems[vehicleType] = items
                 vehicleType += 1
 
     def asList(self):
-        for vehicleType, itemType in self.allowedItems.items():
-            yield [vehicleType, itemType]
+        result = []
+        for vehicleType, items in self.allowedItems.items():
+            for item in items:
+                result.append([vehicleType, item])
+        return result
