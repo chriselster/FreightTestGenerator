@@ -11,7 +11,7 @@ class Position:
         self.y = y
 
     def __str__(self):
-        return f'{self.x}, {self.y}'
+        return f"{self.x}, {self.y}"
 
     def asList(self):
         return [self.x, self.y]

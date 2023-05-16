@@ -41,8 +41,10 @@ class VehicleFactoryTest(TestCase):
         min_capacity_factors = [0.8, 0.9]
         self.factory.set_min_capacity_factors(min_capacity_factors)
         vehicle = self.factory.generate(1)[0]
-        self.assertIn(vehicle.min_capacity, map(
-            lambda x: x * vehicle.capacity, min_capacity_factors))
+        self.assertIn(
+            vehicle.min_capacity,
+            map(lambda x: x * vehicle.capacity, min_capacity_factors),
+        )
 
     def test_set_cost_per_km_per_weight(self):
         cost_per_km_per_weight = [0.1, 0.2]

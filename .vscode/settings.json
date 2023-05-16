@@ -22,7 +22,7 @@
 	],
 	"python.linting.mypyEnabled": false,
 	"[python]": {
-		"editor.defaultFormatter": "ms-python.autopep8"
+		"editor.defaultFormatter": "ms-python.black-formatter",
 	},
 	"python.formatting.provider": "none",
 	"python.testing.pytestArgs": [

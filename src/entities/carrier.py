@@ -1,5 +1,3 @@
-
-
 import random
 
 
@@ -10,12 +8,15 @@ class Carrier:
     def fromIndex(index):
         return Carrier(index, [], 0, 0, 0, 0)
 
-    def __init__(self, index,
-                 quadrants,
-                 minimalContractedLoadPercentage,
-                 costPerAdditionalCustomer,
-                 discoutPerCapacityIncrease,
-                 maxDistanceBetweenCustomers):
+    def __init__(
+        self,
+        index,
+        quadrants,
+        minimalContractedLoadPercentage,
+        costPerAdditionalCustomer,
+        discoutPerCapacityIncrease,
+        maxDistanceBetweenCustomers,
+    ):
         self.index = index
         self.quadrants = quadrants
         self.minimalContractedLoadPercentage = minimalContractedLoadPercentage
@@ -29,28 +30,34 @@ class Carrier:
         self.baseCost = 0
 
     def asList(self):
-        return [self.index,
-                self.minimalContractedLoadPercentage,
-                self.costPerAdditionalCustomer,
-                self.discountPerCapacityIncrease,
-                self.maxDistanceBetweenCustomers]
+        return [
+            self.index,
+            self.minimalContractedLoadPercentage,
+            self.costPerAdditionalCustomer,
+            self.discountPerCapacityIncrease,
+            self.maxDistanceBetweenCustomers,
+        ]
 
     def generateClientList(self, clients):
         if self.quadrants.count(1) == 1:
             self.clients += [
-                client for client in clients if client.x < 50 and client.y < 50]
+                client for client in clients if client.x < 50 and client.y < 50
+            ]
 
         if self.quadrants.count(2) == 1:
             self.clients += [
-                client for client in clients if client.x > 50 and client.y < 50]
+                client for client in clients if client.x > 50 and client.y < 50
+            ]
 
         if self.quadrants.count(3) == 1:
             self.clients += [
-                client for client in clients if client.x < 50 and client.y > 50]
+                client for client in clients if client.x < 50 and client.y > 50
+            ]
 
         if self.quadrants.count(4) == 1:
             self.clients += [
-                client for client in clients if client.x > 50 and client.y > 50]
+                client for client in clients if client.x > 50 and client.y > 50
+            ]
 
     def add_vehicle_capacities(self, weights):
         self.vehicle_capacities = weights
