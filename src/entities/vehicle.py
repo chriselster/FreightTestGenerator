@@ -1,7 +1,7 @@
 class Vehicle:
     @staticmethod
     def header():
-        return ['index', 'type', 'capacity', 'carrierId']
+        return ["index", "type", "capacity", "carrierId"]
 
     def __init__(self, index, _type, capacity, carrierId):
         self.index = index

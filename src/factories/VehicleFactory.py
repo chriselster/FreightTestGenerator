@@ -17,17 +17,16 @@ class VehicleFactory:
         return [self.buildVehicle() for _ in range(quantity)]
 
     def buildVehicle(self) -> Vehicle:
-
         vehicle = Vehicle.empty()
         vehicle.index = self.index
         self.index += 1
         vehicle.capacity = choice(self.capacities)
-        vehicle.min_capacity = choice(
-            self.min_capacity_factors) * vehicle.capacity
+        vehicle.min_capacity = choice(self.min_capacity_factors) * vehicle.capacity
         vehicle.costPerKmPerWeight = choice(self.cost_per_km_per_weight)
         vehicle.additionalDeliveryCost = choice(self.additional_delivery_costs)
         vehicle.maxDistanceBetweenCustomers = choice(
-            self.max_distance_between_customers)
+            self.max_distance_between_customers
+        )
         vehicle.carrierId = self.carrier_id
         vehicle.type = choice(self.possible_types)
         return vehicle

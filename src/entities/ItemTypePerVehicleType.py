@@ -20,6 +20,5 @@ class ItemTypePerVehicleType:
                 vehicleType += 1
 
     def asList(self):
-        for vehicleType in self.allowedItems:
-            for itemType in self.allowedItems[vehicleType]:
-                yield [vehicleType, itemType]
+        for vehicleType, itemType in self.allowedItems.items():
+            yield [vehicleType, itemType]

@@ -24,8 +24,9 @@ class FareFactory:
             lines = f.readlines()
             for line in lines:
                 tokens = line.split(",")
-                self.maxFarePerVehicleType[int(
-                    tokens[0].strip())] = float(tokens[1].strip())
+                self.maxFarePerVehicleType[int(tokens[0].strip())] = float(
+                    tokens[1].strip()
+                )
 
     def createFares(self, carrierId):
         return [

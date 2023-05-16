@@ -22,13 +22,11 @@ class CarrierFactory:
         carrier.baseCost = choice(self.baseCosts)
         carrier.quadrants = self.quadrants[index % len(self.quadrants)]
         carrier.minimalContractedLoadPercentage = choice(
-            self.minimalContractedLoadPercentages)
-        carrier.costPerAdditionalCustomer = choice(
-            self.costsPerAdditionalCustomer)
-        carrier.maxDistanceBetweenCustomers = choice(
-            self.maxDistanceBetweenCustomers)
-        carrier.discountPerCapacityIncrease = choice(
-            self.discountsPerCapacityIncrease)
+            self.minimalContractedLoadPercentages
+        )
+        carrier.costPerAdditionalCustomer = choice(self.costsPerAdditionalCustomer)
+        carrier.maxDistanceBetweenCustomers = choice(self.maxDistanceBetweenCustomers)
+        carrier.discountPerCapacityIncrease = choice(self.discountsPerCapacityIncrease)
         return carrier
 
     def setBaseCosts(self, baseCosts):

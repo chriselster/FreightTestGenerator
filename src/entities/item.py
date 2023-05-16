@@ -4,13 +4,13 @@ from random import randint, uniform
 class Item:
     @staticmethod
     def header():
-        return ['index', 'weight', 'type', 'clientId']
+        return ["index", "weight", "type", "clientId"]
 
     @staticmethod
     def empty():
         return Item(0, 0, 0, 0)
 
-    def __init__(self, index,  weight, _type, clientId):
+    def __init__(self, index, weight, _type, clientId):
         self.index = index
         self.weight = weight
         self.type = _type
