@@ -4,4 +4,4 @@ minimum_capacity: 0.85, 0.9, 0.95
 cost_per_additional_customer: 20
 max_distance_between_customers: 0.25, 0.5
 discount_per_capacity_increase: 0.2
-base_cost: 2
+base_cost: 1.1

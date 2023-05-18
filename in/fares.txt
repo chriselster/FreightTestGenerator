@@ -1,1 +1,1 @@
-farePerType: 1, 1.2
+farePerType: 1, 1.1

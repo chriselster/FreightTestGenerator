@@ -77,7 +77,7 @@ class TestGenerator:
                 [carrier.costPerAdditionalCustomer]
             )
             self.vehicleFactory.set_max_distance_between_customers(
-                [carrier.maxDistanceBetweenCustomers]
+                [carrier.maxDistanceBetweenCustomers * 100]
             )
             self.vehicleFactory.set_carrier_id(carrier.index)
             self.vehicleFactory.set_min_capacity_factors(
