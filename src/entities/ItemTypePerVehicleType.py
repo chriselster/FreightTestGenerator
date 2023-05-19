@@ -16,7 +16,7 @@ class ItemTypePerVehicleType:
             vehicleType = 1
             while reader.hasNext():
                 items = map(int, reader.next())
-                self.allowedItems[vehicleType] = items
+                self.allowedItems[vehicleType] = list(items)
                 vehicleType += 1
 
     def asList(self):

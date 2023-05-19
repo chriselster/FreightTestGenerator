@@ -7,4 +7,6 @@
 15 instances 100 itens
     -5 de cada tipo de clusterização
 
--Fazer modelo em julia
+- Usar heurística gulosa
+- Engenharia reversa na soluçao
+- Menor capacidade para atender clientes

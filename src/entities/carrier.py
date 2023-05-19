@@ -75,3 +75,6 @@ class Carrier:
         vehicle.costPerKmPerWeight = self.fares[vehicle.type]
         index = self.vehicle_capacities.index(vehicle.capacity)
         vehicle.costPerKmPerWeight -= 0.5 * index
+
+    def attends(self, client):
+        return client in self.clients

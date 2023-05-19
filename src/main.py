@@ -6,14 +6,16 @@ from entities.ItemTypePerVehicleType import ItemTypePerVehicleType
 from entities.TestGenerator import TestGenerator
 
 generator = TestGenerator()
+itemsPerVehicle = ItemTypePerVehicleType()
 items, numberOfClients = generator.buildItems()
 clients = generator.buildClients(numberOfClients)
 carriers = generator.buildCarriers()
-vehicles = generator.buildVehicles(carriers)
 quadrants = generator.buildQuadrants()
-
 for carrier in carriers:
     carrier.generateClientList(clients)
+vehicles = generator.buildVehicles(
+    carriers, items, clients, itemsPerVehicle.allowedItems
+)
 
 with open("out/clients.csv", "w", encoding="UTF8", newline="") as f:
     f.write(CSVGenerator().generate(clients))
@@ -25,7 +27,6 @@ with open("out/vehicles.csv", "w", encoding="UTF8", newline="") as f:
     f.write(CSVGenerator().generate(vehicles))
 
 with open("out/items_per_vehicle.csv", "w", encoding="UTF8", newline="") as f:
-    itemsPerVehicle = ItemTypePerVehicleType()
     writer = csv.writer(f)
     writer.writerow(itemsPerVehicle.header())
     for item in itemsPerVehicle.asList():

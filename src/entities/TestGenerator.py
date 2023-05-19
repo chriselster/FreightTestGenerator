@@ -10,6 +10,8 @@ from entities.utils import Quadrants
 from factories.VehicleFactory import VehicleFactory
 from factories.ItemFactory import ItemFactory
 from factories.CarrierFactory import CarrierFactory
+from entities.item import Item
+from entities.vehicle import Vehicle
 
 
 class TestGenerator:
@@ -59,40 +61,37 @@ class TestGenerator:
         self.carrierFactory.setBaseCosts(reader.next())
         return self.carrierFactory.generate(quantity)
 
-    def buildVehicles(self, carriers: list[Carrier]):
+    def buildVehicles(
+        self,
+        carriers: list[Carrier],
+        items: list[Item],
+        clients: list[Client],
+        itemTypePerVehicleType: dict,
+    ):
         with open("in/vehicle_params.txt", "r", encoding="utf-8") as f:
             reader = ParamReader(f.readlines())
         types = reader.next()
         capacities = reader.next()
         # map types to int
         types = [int(t) for t in types]
-        self.vehicleFactory.set_possible_types(types)
+        self.vehicleFactory.carriers = carriers
+        self.vehicleFactory.item_type_per_vehicle_type = itemTypePerVehicleType
         self.vehicleFactory.set_capacities(capacities)
         with open("in/fares.txt", "r", encoding="utf-8") as f:
             reader = ParamReader(f.readlines())
         fares = reader.next()
-        result = []
-        for carrier in carriers:
-            self.vehicleFactory.set_additional_delivery_costs(
-                [carrier.costPerAdditionalCustomer]
+        result = list[Vehicle]()
+        for item in items:
+            vehicle = self.vehicleFactory.generate_vehicle_that_attends_item(
+                item, clients[item.clientId]
             )
-            self.vehicleFactory.set_max_distance_between_customers(
-                [carrier.maxDistanceBetweenCustomers * 100]
-            )
-            self.vehicleFactory.set_carrier_id(carrier.index)
-            self.vehicleFactory.set_min_capacity_factors(
-                [carrier.minimalContractedLoadPercentage]
-            )
-            self.vehicleFactory.set_cost_per_km_per_weight([carrier.baseCost])
-            vehicles = self.vehicleFactory.generate(5)
-            for vehicle in vehicles:
-                # subtract index of vehicle weight in capacities * carrier.discountPerCapacityIncrease
-                vehicle.costPerKmPerWeight = (
-                    vehicle.costPerKmPerWeight
-                    - capacities.index(vehicle.capacity)
-                    * carrier.discountPerCapacityIncrease
-                ) * fares[vehicle.type - 1]
-            result.extend(vehicles)
+            result.append(vehicle)
+        for vehicle in result:
+            vehicle.costPerKmPerWeight = (
+                vehicle.costPerKmPerWeight
+                - capacities.index(vehicle.capacity)
+                * carriers[vehicle.carrierId].discountPerCapacityIncrease
+            ) * fares[vehicle.type - 1]
         return result
 
     def buildQuadrants(self):

@@ -1,6 +1,3 @@
-from random import randint, uniform
-
-
 class Item:
     @staticmethod
     def header():
@@ -10,7 +7,7 @@ class Item:
     def empty():
         return Item(0, 0, 0, 0)
 
-    def __init__(self, index, weight, _type, clientId):
+    def __init__(self, index: int, weight: float, _type: int, clientId: int):
         self.index = index
         self.weight = weight
         self.type = _type
