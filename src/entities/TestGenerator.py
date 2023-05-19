@@ -8,6 +8,7 @@ from entities.ParamReader import ParamReader
 from entities.item import Item
 from entities.vehicle import Vehicle
 from entities.utils import Quadrants
+from entities.point import Point
 
 from factories.VehicleFactory import VehicleFactory
 from factories.ItemFactory import ItemFactory
@@ -103,8 +104,6 @@ class TestGenerator:
         for vehicle in result:
             if (
                 vehicle.canAttend(item)
-                and vehicle.maxDistanceBetweenCustomers
-                >= vehicle.distanceTo(item)  # TODO:FAZER
                 and carriers[vehicle.carrierId].canAttend(item.clientId)
                 and item.type in itemTypePerVehicleType[vehicle.type]
             ):
@@ -113,3 +112,8 @@ class TestGenerator:
 
     def buildQuadrants(self):
         return [Quadrants(i + 1) for i in range(5)]
+
+    def setItemDestinations(self, items: list[Item], clients: list[Client]):
+        for item in items:
+            client = clients[item.clientId]
+            item.destination = Point(client.x, client.y)

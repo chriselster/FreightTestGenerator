@@ -16,6 +16,7 @@ class Vehicle:
         self.additionalDeliveryCost = 0
         self.maxDistanceBetweenCustomers = 0
         self.remainingCapacity = capacity
+        self.visitedPoints = []
 
     def toCSVData(self):
         return VehicleCSVData.from_vehicle(self)
@@ -32,10 +33,23 @@ class Vehicle:
         return [self.index, self.type, self.capacity, self.carrierId]
 
     def canAttend(self, item: Item):
-        return self.remainingCapacity >= item.weight
+        return self.remainingCapacity >= item.weight and self.isInRange(
+            item.destination
+        )
+
+    def isInRange(self, point):
+        if len(self.visitedPoints) == 0:
+            return True
+        result = False
+        for visitedPoint in self.visitedPoints:
+            if visitedPoint.distance(point) <= self.maxDistanceBetweenCustomers:
+                result = True
+                break
+        return result
 
     def attend(self, item: Item):
         self.remainingCapacity -= item.weight
+        self.visitedPoints.append(item.destination)
 
 
 class VehicleCSVData:

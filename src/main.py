@@ -9,6 +9,7 @@ generator = TestGenerator()
 itemsPerVehicle = ItemTypePerVehicleType()
 items, numberOfClients = generator.buildItems()
 clients = generator.buildClients(numberOfClients)
+generator.setItemDestinations(items, clients)
 carriers = generator.buildCarriers()
 quadrants = generator.buildQuadrants()
 for carrier in carriers:
@@ -21,7 +22,8 @@ with open("out/clients.csv", "w", encoding="UTF8", newline="") as f:
     f.write(CSVGenerator().generate(clients))
 
 with open("out/items.csv", "w", encoding="UTF8", newline="") as f:
-    f.write(CSVGenerator().generate(items))
+    itemCsvData = [item.toCSVData() for item in items]
+    f.write(CSVGenerator().generate(itemCsvData))
 
 with open("out/vehicles.csv", "w", encoding="UTF8", newline="") as f:
     vehicleCsvData = [vehicle.toCSVData() for vehicle in vehicles]

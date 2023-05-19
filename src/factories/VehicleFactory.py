@@ -13,7 +13,7 @@ class VehicleFactory:
         self.min_capacity_factors = []
         self.cost_per_km_per_weight = []
         self.additional_delivery_costs = []
-        self.max_distance_between_customers = []
+        self.max_distance_between_customers = 0
         self.item_type_per_vehicle_type = {}
         self.carriers = list[Carrier]()
 
@@ -45,9 +45,10 @@ class VehicleFactory:
         self.min_capacity_factors = selectedCarrier.minimalContractedLoadPercentage
         self.cost_per_km_per_weight = selectedCarrier.baseCost
         self.additional_delivery_costs = selectedCarrier.costPerAdditionalCustomer
-        self.max_distance_between_customers = [
+        self.max_distance_between_customers = (
             selectedCarrier.maxDistanceBetweenCustomers * 100
-        ]
+        )
+
         self.possible_types = selectedCarrier.accepted_types
 
     def build(self, vehicle: Vehicle):
