@@ -24,7 +24,8 @@ with open("out/items.csv", "w", encoding="UTF8", newline="") as f:
     f.write(CSVGenerator().generate(items))
 
 with open("out/vehicles.csv", "w", encoding="UTF8", newline="") as f:
-    f.write(CSVGenerator().generate(vehicles))
+    vehicleCsvData = [vehicle.toCSVData() for vehicle in vehicles]
+    f.write(CSVGenerator().generate(vehicleCsvData))
 
 with open("out/items_per_vehicle.csv", "w", encoding="UTF8", newline="") as f:
     writer = csv.writer(f)

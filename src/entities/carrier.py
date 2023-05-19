@@ -1,5 +1,7 @@
 import random
 
+from entities.client import Client
+
 
 class Carrier:
     quadrants = []
@@ -76,5 +78,5 @@ class Carrier:
         index = self.vehicle_capacities.index(vehicle.capacity)
         vehicle.costPerKmPerWeight -= 0.5 * index
 
-    def attends(self, client):
-        return client in self.clients
+    def canAttend(self, clientId: int):
+        return clientId in map(lambda client: client.index, self.clients)

@@ -25,6 +25,7 @@ class VehicleFactory:
         vehicle.capacity = next(
             (capacity for capacity in self.capacities if capacity >= item.weight), None
         )
+        vehicle.remainingCapacity = vehicle.capacity
         vehicle.type = self.get_possible_type(item.type)
         selectedCarrier = self.get_carrier_that_attends_item(client)
         vehicle.carrierId = selectedCarrier.index
@@ -34,7 +35,7 @@ class VehicleFactory:
     def get_carrier_that_attends_item(self, client) -> Carrier:
         possibleCarriers = list(
             filter(
-                lambda carrier: carrier.attends(client),
+                lambda carrier: carrier.canAttend(client.index),
                 self.carriers,
             )
         )
@@ -44,9 +45,9 @@ class VehicleFactory:
         self.min_capacity_factors = selectedCarrier.minimalContractedLoadPercentage
         self.cost_per_km_per_weight = selectedCarrier.baseCost
         self.additional_delivery_costs = selectedCarrier.costPerAdditionalCustomer
-        self.max_distance_between_customers = (
-            selectedCarrier.maxDistanceBetweenCustomers
-        )
+        self.max_distance_between_customers = [
+            selectedCarrier.maxDistanceBetweenCustomers * 100
+        ]
         self.possible_types = selectedCarrier.accepted_types
 
     def build(self, vehicle: Vehicle):

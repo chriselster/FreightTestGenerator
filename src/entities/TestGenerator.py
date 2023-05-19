@@ -1,17 +1,17 @@
 from random import randint, seed
 
-
 from entities.client import Client
 from entities.clusterization import PointsGenerator
 from entities.carrier import Carrier
 from entities.fare import FareFactory
 from entities.ParamReader import ParamReader
+from entities.item import Item
+from entities.vehicle import Vehicle
 from entities.utils import Quadrants
+
 from factories.VehicleFactory import VehicleFactory
 from factories.ItemFactory import ItemFactory
 from factories.CarrierFactory import CarrierFactory
-from entities.item import Item
-from entities.vehicle import Vehicle
 
 
 class TestGenerator:
@@ -82,9 +82,12 @@ class TestGenerator:
         fares = reader.next()
         result = list[Vehicle]()
         for item in items:
+            if self.anyVehicleCanAttend(carriers, itemTypePerVehicleType, result, item):
+                continue
             vehicle = self.vehicleFactory.generate_vehicle_that_attends_item(
                 item, clients[item.clientId]
             )
+            vehicle.attend(item)
             result.append(vehicle)
         for vehicle in result:
             vehicle.costPerKmPerWeight = (
@@ -93,6 +96,20 @@ class TestGenerator:
                 * carriers[vehicle.carrierId].discountPerCapacityIncrease
             ) * fares[vehicle.type - 1]
         return result
+
+    def anyVehicleCanAttend(
+        self, carriers, itemTypePerVehicleType, result: list[Vehicle], item
+    ):
+        for vehicle in result:
+            if (
+                vehicle.canAttend(item)
+                and vehicle.maxDistanceBetweenCustomers
+                >= vehicle.distanceTo(item)  # TODO:FAZER
+                and carriers[vehicle.carrierId].canAttend(item.clientId)
+                and item.type in itemTypePerVehicleType[vehicle.type]
+            ):
+                vehicle.attend(item)
+                return True
 
     def buildQuadrants(self):
         return [Quadrants(i + 1) for i in range(5)]
