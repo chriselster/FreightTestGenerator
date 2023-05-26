@@ -79,18 +79,19 @@ class PointsGenerator:
             yield point
 
     def generate_city_sizes(self):
-        assert self.centers >= self.amount
+        self.centers = min(self.centers, self.amount)
         result = []
         max_size = self.amount
-        for index in range(self.centers):
+        for index in range(self.centers - 1):
             quantity = randint(1, max_size - (self.centers - (index + 1)))
             max_size -= quantity
             result.append(quantity)
+        result.append(max_size)
         return result
 
     def create_uniform_clusters(self):
         points, _ = make_blobs(
-            n_samples=self.generate_city_sizes(),
+            n_samples=self.generate_uniform_center_sizes(),
             n_features=2,
             centers=self.generate_centers(),
             cluster_std=self.cluster_std,
@@ -101,6 +102,12 @@ class PointsGenerator:
             point[0] = round(point[0], 3)
             point[1] = round(point[1], 3)
             yield point
+
+    def generate_uniform_center_sizes(self):
+        size = self.amount // self.centers
+        result = [size] * self.centers
+        result[-1] += self.amount - (size * self.centers)
+        return result
 
     def generate_centers(self):
         centers = []
