@@ -16,19 +16,18 @@ from factories.CarrierFactory import CarrierFactory
 
 
 class TestGenerator:
-    itemFactory = ItemFactory()
-    vehicleFactory = VehicleFactory()
-    carrierFactory = CarrierFactory()
-    fareFactory = FareFactory()
-
     def __init__(self):
         with open("in/cluster_params.txt", "r", encoding="utf-8") as f:
             reader = ParamReader(f.readlines())
             seed(int(reader.next()[0]))
+        self.itemFactory = ItemFactory()
+        self.vehicleFactory = VehicleFactory()
+        self.carrierFactory = CarrierFactory()
+        self.fareFactory = FareFactory()
 
-    def buildClients(self, amount):
+    def buildClients(self, amount, clusterType):
         clients = []
-        for index, point in enumerate(PointsGenerator().generate(amount)):
+        for index, point in enumerate(PointsGenerator().generate(amount, clusterType)):
             clients.append(Client(index, point.x, point.y))
         return clients
 

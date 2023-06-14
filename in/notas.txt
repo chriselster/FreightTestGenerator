@@ -6,7 +6,3 @@
     -5 de cada tipo de clusterização
 15 instances 100 itens
     -5 de cada tipo de clusterização
-
-- Usar heurística gulosa
-- Engenharia reversa na soluçao
-- Menor capacidade para atender clientes

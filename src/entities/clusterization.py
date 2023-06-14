@@ -8,7 +8,7 @@ from sklearn.datasets import make_blobs
 from entities.client import Position
 
 
-class GenerationMethod(Enum):
+class ClusterType(Enum):
     RANDOM = 0
     UNIFORM = 1
     REAL = 2
@@ -18,13 +18,13 @@ class PointsGenerator:
     def __init__(self):
         self.read_params()
 
-    def generate(self, amount):
+    def generate(self, amount, clusterType: ClusterType):
         self.amount = amount
-        if self.method == GenerationMethod.UNIFORM:
+        if clusterType == ClusterType.UNIFORM:
             return self.generate_uniform_clusters()
-        if self.method == GenerationMethod.RANDOM:
+        if clusterType == ClusterType.RANDOM:
             return self.generate_random_points()
-        if self.method == GenerationMethod.REAL:
+        if clusterType == ClusterType.REAL:
             return self.generate_real_cities()
 
     def generate_real_cities(self):
@@ -122,7 +122,7 @@ class PointsGenerator:
             self.seed = int(self.parse_value(lines[0]))
             self.amount = int(self.parse_value(lines[1]))
             self.centers = int(self.parse_value(lines[2]))
-            self.method = GenerationMethod(int(self.parse_value(lines[3])))
+            self.method = ClusterType(int(self.parse_value(lines[3])))
             self.cluster_std = float(self.parse_value(lines[4]))
 
     def parse_value(self, line):
