@@ -7,54 +7,54 @@ from entities.CSVGenerator import CSVGenerator
 from entities.ItemTypePerVehicleType import ItemTypePerVehicleType
 from entities.TestGenerator import TestGenerator
 
-outDir = "10-items-random/"
+outDir = "200-items/"
 
 for index in range(1, 6):
-    # for clusterType in ClusterType.__members__.values():
-    directory = outDir + "/" + str(index)
-    generator = TestGenerator()
-    itemsPerVehicle = ItemTypePerVehicleType()
-    items, numberOfClients = generator.buildItems()
-    clients = generator.buildClients(numberOfClients, ClusterType.RANDOM)
-    generator.setItemDestinations(items, clients)
-    carriers = generator.buildCarriers()
-    quadrants = generator.buildQuadrants()
-    for carrier in carriers:
-        carrier.generateClientList(clients)
-    vehicles = generator.buildVehicles(
-        carriers, items, clients, itemsPerVehicle.allowedItems
-    )
-
-    if not os.path.exists(directory):
-        os.makedirs(directory)
-
-    with open(directory + "/clients.csv", "w", encoding="UTF8", newline="") as f:
-        f.write(CSVGenerator().generate(clients))
-
-    with open(directory + "/items.csv", "w", encoding="UTF8", newline="") as f:
-        itemCsvData = [item.toCSVData() for item in items]
-        f.write(CSVGenerator().generate(itemCsvData))
-
-    with open(directory + "/vehicles.csv", "w", encoding="UTF8", newline="") as f:
-        vehicleCsvData = [vehicle.toCSVData() for vehicle in vehicles]
-        f.write(CSVGenerator().generate(vehicleCsvData))
-
-    with open(
-        directory + "/items_per_vehicle.csv", "w", encoding="UTF8", newline=""
-    ) as f:
-        writer = csv.writer(f)
-        writer.writerow(itemsPerVehicle.header())
-        for item in itemsPerVehicle.asList():
-            writer.writerow(item)
-
-    with open(
-        directory + "/clients_per_carrier.csv", "w", encoding="UTF8", newline=""
-    ) as f:
-        writer = csv.writer(f)
-        writer.writerow(["carrier_id", "client_id"])
+    for clusterType in ClusterType.__members__.values():
+        directory = outDir + clusterType.name + "/" + str(index)
+        generator = TestGenerator()
+        itemsPerVehicle = ItemTypePerVehicleType()
+        items, numberOfClients = generator.buildItems()
+        clients = generator.buildClients(numberOfClients, ClusterType.RANDOM)
+        generator.setItemDestinations(items, clients)
+        carriers = generator.buildCarriers()
+        quadrants = generator.buildQuadrants()
         for carrier in carriers:
-            for client in carrier.clients:
-                writer.writerow([carrier.index, client.index])
+            carrier.generateClientList(clients)
+        vehicles = generator.buildVehicles(
+            carriers, items, clients, itemsPerVehicle.allowedItems
+        )
+
+        if not os.path.exists(directory):
+            os.makedirs(directory)
+
+        with open(directory + "/clients.csv", "w", encoding="UTF8", newline="") as f:
+            f.write(CSVGenerator().generate(clients))
+
+        with open(directory + "/items.csv", "w", encoding="UTF8", newline="") as f:
+            itemCsvData = [item.toCSVData() for item in items]
+            f.write(CSVGenerator().generate(itemCsvData))
+
+        with open(directory + "/vehicles.csv", "w", encoding="UTF8", newline="") as f:
+            vehicleCsvData = [vehicle.toCSVData() for vehicle in vehicles]
+            f.write(CSVGenerator().generate(vehicleCsvData))
+
+        with open(
+            directory + "/items_per_vehicle.csv", "w", encoding="UTF8", newline=""
+        ) as f:
+            writer = csv.writer(f)
+            writer.writerow(itemsPerVehicle.header())
+            for item in itemsPerVehicle.asList():
+                writer.writerow(item)
+
+        with open(
+            directory + "/clients_per_carrier.csv", "w", encoding="UTF8", newline=""
+        ) as f:
+            writer = csv.writer(f)
+            writer.writerow(["carrier_id", "client_id"])
+            for carrier in carriers:
+                for client in carrier.clients:
+                    writer.writerow([carrier.index, client.index])
 
 # Plot item positions
 # for client in clients:

@@ -1,4 +1,4 @@
-from random import randint, seed
+from random import randint
 
 from entities.client import Client
 from entities.clusterization import PointsGenerator
@@ -17,9 +17,6 @@ from factories.CarrierFactory import CarrierFactory
 
 class TestGenerator:
     def __init__(self):
-        with open("in/cluster_params.txt", "r", encoding="utf-8") as f:
-            reader = ParamReader(f.readlines())
-            seed(int(reader.next()[0]))
         self.itemFactory = ItemFactory()
         self.vehicleFactory = VehicleFactory()
         self.carrierFactory = CarrierFactory()

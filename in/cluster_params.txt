@@ -1,4 +1,4 @@
-seed: 0
+seed: -1
 client amount: 5
 centers: 4
 method: 2

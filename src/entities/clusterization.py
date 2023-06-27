@@ -70,7 +70,6 @@ class PointsGenerator:
             n_samples=self.generate_city_sizes(),
             centers=self.generate_centers(),  # type: ignore
             cluster_std=self.cluster_std,
-            random_state=self.seed,
         )
 
         for point in points:
@@ -95,7 +94,6 @@ class PointsGenerator:
             n_features=2,
             centers=self.generate_centers(),
             cluster_std=self.cluster_std,
-            random_state=self.seed,
         )
 
         for point in points:
@@ -119,7 +117,7 @@ class PointsGenerator:
     def read_params(self):
         with open("in/cluster_params.txt", "r", encoding="utf-8") as f:
             lines = f.readlines()
-            self.seed = int(self.parse_value(lines[0]))
+            # self.seed = int(self.parse_value(lines[0]))
             self.amount = int(self.parse_value(lines[1]))
             self.centers = int(self.parse_value(lines[2]))
             self.method = ClusterType(int(self.parse_value(lines[3])))

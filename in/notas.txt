@@ -6,3 +6,9 @@
     -5 de cada tipo de clusterização
 15 instances 100 itens
     -5 de cada tipo de clusterização
+
+15 instances 200 itens
+    -5 de cada tipo de clusterização
+
+-comentar no overleaf a geração de instancias
+-usar 2 de cada para testar BRKGA a partir de 25 itens
