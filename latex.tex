@@ -1,0 +1,13 @@
+\subsection{Instance Generator}
+\label{sec:instance-generator}
+
+
+
+We created a simple instance generator that can be used to make test cases with a specific amount of items.
+It is guaranteed by a greedy heuristic that the instance is feasible, that is, that there is a configuration of items and vehicles
+that satisfy the problem constraints. The greedy heuristic works as follows: the items are generated with random weights
+and for each of them a random customer is determined. Finally the vehicles needed to transport all the items are generated,
+considering that some items can be transported together.
+
+Using this instance generator we created a set of test cases with 10, 20, 50, 100 and 200 items. For each of these test cases
+we've run the BRKGA using three different decoders wich are described in the next section.

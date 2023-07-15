@@ -15,7 +15,7 @@ for index in range(1, 6):
         generator = TestGenerator()
         itemsPerVehicle = ItemTypePerVehicleType()
         items, numberOfClients = generator.buildItems()
-        clients = generator.buildClients(numberOfClients, ClusterType.RANDOM)
+        clients = generator.buildClients(numberOfClients, ClusterType.UNIFORM)
         generator.setItemDestinations(items, clients)
         carriers = generator.buildCarriers()
         quadrants = generator.buildQuadrants()
@@ -57,7 +57,7 @@ for index in range(1, 6):
                     writer.writerow([carrier.index, client.index])
 
 # Plot item positions
-# for client in clients:
-#     plt.scatter(client.x, client.y, s=0.2, c="red")
-# plt.scatter(50, 50, c="green")
-# plt.show()
+for client in clients:
+    plt.scatter(client.x, client.y, s=0.2, c="red")
+plt.scatter(50, 50, c="green")
+plt.show()

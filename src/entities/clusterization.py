@@ -20,6 +20,7 @@ class PointsGenerator:
 
     def generate(self, amount, clusterType: ClusterType):
         self.amount = amount
+
         if clusterType == ClusterType.UNIFORM:
             return self.generate_uniform_clusters()
         if clusterType == ClusterType.RANDOM:
@@ -60,7 +61,7 @@ class PointsGenerator:
             point[1] += uniform(-50, 50)
             points.append(point)
 
-        for point in points:
+        for point in self.normalize(points):
             point[0] = round(point[0], 3)
             point[1] = round(point[1], 3)
             yield point
@@ -72,7 +73,7 @@ class PointsGenerator:
             cluster_std=self.cluster_std,
         )
 
-        for point in points:
+        for point in self.normalize(points):
             point[0] = round(point[0], 3)
             point[1] = round(point[1], 3)
             yield point
@@ -96,7 +97,7 @@ class PointsGenerator:
             cluster_std=self.cluster_std,
         )
 
-        for point in points:
+        for point in self.normalize(points):
             point[0] = round(point[0], 3)
             point[1] = round(point[1], 3)
             yield point
