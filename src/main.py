@@ -7,7 +7,7 @@ from entities.CSVGenerator import CSVGenerator
 from entities.ItemTypePerVehicleType import ItemTypePerVehicleType
 from entities.TestGenerator import TestGenerator
 
-outDir = "200-items/"
+outDir = "instances/200-items/"
 
 for index in range(1, 6):
     for clusterType in ClusterType.__members__.values():
@@ -15,7 +15,7 @@ for index in range(1, 6):
         generator = TestGenerator()
         itemsPerVehicle = ItemTypePerVehicleType()
         items, numberOfClients = generator.buildItems()
-        clients = generator.buildClients(numberOfClients, ClusterType.UNIFORM)
+        clients = generator.buildClients(numberOfClients, clusterType)
         generator.setItemDestinations(items, clients)
         carriers = generator.buildCarriers()
         quadrants = generator.buildQuadrants()
@@ -56,7 +56,9 @@ for index in range(1, 6):
                 for client in carrier.clients:
                     writer.writerow([carrier.index, client.index])
 
+
 # Plot item positions
+print(len(clients))
 for client in clients:
     plt.scatter(client.x, client.y, s=0.2, c="red")
 plt.scatter(50, 50, c="green")

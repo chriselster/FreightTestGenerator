@@ -67,7 +67,7 @@ class PointsGenerator:
             yield point
 
     def create_cities(self):
-        points, _ = make_blobs(
+        points, _ = make_blobs( #olhar aqui
             n_samples=self.generate_city_sizes(),
             centers=self.generate_centers(),  # type: ignore
             cluster_std=self.cluster_std,

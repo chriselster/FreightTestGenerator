@@ -20,6 +20,7 @@ class ItemFactory:
         item.clientId = self.client_id
         item.type = choice(self.types)
         item.weight = uniform(self.min_weight, self.max_weight)
+        item.weight = round(item.weight,2)
         return item
 
     def set_client_id(self, client_id):

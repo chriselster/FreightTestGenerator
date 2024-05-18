@@ -92,6 +92,7 @@ class TestGenerator:
                 - capacities.index(vehicle.capacity)
                 * carriers[vehicle.carrierId].discountPerCapacityIncrease
             ) * fares[vehicle.type - 1]
+            vehicle.costPerKmPerWeight = round(vehicle.costPerKmPerWeight,2)
         return result
 
     def anyVehicleCanAttend(
